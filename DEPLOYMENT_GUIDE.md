@@ -103,8 +103,33 @@ az webapp create \
 ```
 
 ### 2.3 Configure Backend Environment Variables
+
+#### Generate JWT Secret
 ```bash
-# Set database connection variables
+# Generate a secure JWT secret (32 characters recommended)
+# Option 1: Using Node.js
+node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+
+# Option 2: Using OpenSSL
+openssl rand -hex 32
+
+# Option 3: Using online generator (for demo only, use local generation for production)
+# Visit: https://www.allkeysgenerator.com/Random/Security-Encryption-Key-Generator.aspx
+```
+
+#### Get Database Password
+The database password is the one you set when creating your Azure SQL Server. If you don't remember it:
+```bash
+# You cannot retrieve the password, but you can reset it
+az sql server update \
+  --resource-group GenVolt \
+  --name genvolt-sql-server \
+  --admin-password "YourNewSecurePassword123!"
+```
+
+#### Set Environment Variables
+```bash
+# Set database connection variables (replace placeholders with actual values)
 az webapp config appsettings set \
   --resource-group GenVolt \
   --name genvolt-webapp-backend \
@@ -112,11 +137,12 @@ az webapp config appsettings set \
     DB_SERVER="genvolt-sql-server.database.windows.net" \
     DB_DATABASE="gendb" \
     DB_USERNAME="genvolt@123" \
-    DB_PASSWORD="[Your-SQL-Server-Password]" \
-    JWT_SECRET="your-secure-jwt-secret-key-here" \
+    DB_PASSWORD="YourActualDatabasePassword" \
+    JWT_SECRET="$(node -e 'console.log(require(\"crypto\").randomBytes(32).toString(\"hex\"))')" \
     NODE_ENV="production"
 
-# Note: Replace JWT_SECRET with a secure random string and DB_PASSWORD with actual password
+# Alternative: Set JWT_SECRET manually with a pre-generated value
+# JWT_SECRET="a1b2c3d4e5f6789012345678901234567890abcdef1234567890abcdef123456"
 ```
 
 ### 2.4 Configure Startup Command
@@ -330,23 +356,57 @@ Co-Authored-By: Claude <noreply@anthropic.com>"
 git push origin main
 ```
 
-## Phase 6: Database Setup
+## Phase 6: Security Best Practices
 
-### 6.1 Run Database Setup Scripts
+### 6.1 Secure Your JWT Secret
+```bash
+# Generate a strong JWT secret (save this securely)
+JWT_SECRET=$(node -e "console.log(require('crypto').randomBytes(32).toString('hex'))")
+echo "Your JWT Secret: $JWT_SECRET"
+
+# Set it in Azure (don't store in code)
+az webapp config appsettings set \
+  --resource-group GenVolt \
+  --name genvolt-webapp-backend \
+  --settings JWT_SECRET="$JWT_SECRET"
+```
+
+### 6.2 Verify Environment Variables Are Set
+```bash
+# Check all environment variables are configured
+az webapp config appsettings list \
+  --resource-group GenVolt \
+  --name genvolt-webapp-backend \
+  --query "[].{name:name, value:value}" \
+  --output table
+```
+
+### 6.3 Enable HTTPS Only
+```bash
+# Ensure HTTPS-only access
+az webapp update \
+  --resource-group GenVolt \
+  --name genvolt-webapp-backend \
+  --https-only true
+```
+
+## Phase 7: Database Setup
+
+### 7.1 Run Database Setup Scripts
 ```sql
 -- Connect to your SQL Server and run:
 -- 1. database/setup/database_setup.sql
 -- 2. database/demo-data/setup_demo_data.sql (for demo users and data)
 ```
 
-### 6.2 Create Demo Admin User
+### 7.2 Create Demo Admin User
 The setup scripts create a default admin user:
 - **Email**: admin@iotdashboard.com
 - **Password**: admin123 (change in production)
 
-## Phase 7: Verification and Testing
+## Phase 8: Verification and Testing
 
-### 7.1 Check Deployment Status
+### 8.1 Check Deployment Status
 ```bash
 # Check backend status
 az webapp show --resource-group GenVolt --name genvolt-webapp-backend --query "state"
@@ -358,7 +418,7 @@ az staticwebapp show --resource-group GenVolt --name genvolt-frontend --query "s
 az webapp log tail --resource-group GenVolt --name genvolt-webapp-backend
 ```
 
-### 7.2 Test Application
+### 8.2 Test Application
 1. **Frontend URL**: Check Azure Portal → Static Web Apps → genvolt-frontend → URL
 2. **Backend URL**: `https://genvolt-webapp-backend-epezdjc9hfcyf4hr.centralindia-01.azurewebsites.net`
 3. **Login**: Use demo credentials or create new users
