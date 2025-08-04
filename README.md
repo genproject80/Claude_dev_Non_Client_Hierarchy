@@ -1,6 +1,8 @@
-# GenVolt Web Application
+# GenVolt Web Application - Non-Client Hierarchy Implementation
 
 A comprehensive IoT dashboard and device management system for GenVolt industrial equipment monitoring.
+
+**Note: This codebase implements client data isolation (multi-tenancy) but does NOT include client hierarchy functionality.**
 
 ## Project Structure
 
@@ -48,13 +50,13 @@ GenVolt_Webapp/
 
 ### Device Management
 - **Device Configuration**: Admin interface for device settings
-- **Client Assignment**: Multi-tenant device assignment and access control
+- **Client Assignment**: Multi-tenant device assignment and access control (flat structure)
 - **Real-time Status**: Live device health and connectivity monitoring
 - **Historical Data**: Access to device performance history
 
 ### User & Permission Management
 - **Custom Roles**: Flexible role system (admin, user, viewer, custom roles)
-- **Client Isolation**: Users only see data from their assigned clients
+- **Client Isolation**: Users only see data from their assigned clients (no hierarchy)
 - **Session Management**: Secure JWT-based authentication
 - **Admin Panel**: Comprehensive user and role management
 
@@ -144,10 +146,27 @@ GenVolt_Webapp/
 - **Demo Users**: Pre-configured with different access levels
 - **Custom Roles**: TK (IoT access), AJ (Motor access)
 
+## Architecture Notes
+
+### Client Data Structure
+This implementation uses a **flat client structure** with:
+- Simple client isolation via `client_id` foreign keys
+- Users assigned to single clients
+- Devices assigned to single clients
+- No parent-child client relationships
+- No hierarchical access patterns
+
+### Missing Client Hierarchy Features
+To implement client hierarchy, you would need:
+- `parent_client_id` field in Clients table
+- Recursive queries for child client access
+- Hierarchical permission inheritance
+- Parent-child relationship management UI
+
 ## Project History
 
 This project was developed to provide a comprehensive IoT monitoring solution with:
-- Multi-tenant device management
+- Multi-tenant device management (flat structure)
 - Role-based dashboard access
 - Real-time data processing
 - Secure authentication system
