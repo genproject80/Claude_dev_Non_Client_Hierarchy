@@ -4,10 +4,31 @@ This guide provides step-by-step instructions to deploy the GenVolt IoT Dashboar
 
 ## Project Overview
 
-**Repository**: https://github.com/genproject80/Claude_dev_Non_Client_Hierarchy  
+**Repository**: https://github.com/genproject60/Claude_dev_Non_Client_Hierarchy  
 **Architecture**: Full-stack IoT dashboard with React frontend and Node.js backend  
-**Database**: SQL Server (Azure or existing)  
+**Database**: SQL Server (Azure SQL Database)  
 **Deployment Target**: Azure Static Web Apps (frontend) + Azure App Service (backend)
+
+## Deployed Application URLs
+
+**Frontend Application**: https://polite-smoke-0f45f3a00.1.azurestaticapps.net  
+**Backend API**: https://genvolt-webapp-backend-epezdjc9hfcyf4hr.centralindia-01.azurewebsites.net  
+**Database Server**: genvolt-sql-server.database.windows.net  
+**Database Name**: gendb  
+
+## Known Configuration Values
+
+**SQL Server Details**:
+- Server: `genvolt-sql-server.database.windows.net`
+- Database: `gendb`
+- Username: `genvolt@123`
+- Password: `[Your-Password]` (Keep this secure)
+
+**Azure Resources**:
+- Resource Group: `GenVolt`
+- Region: `Central India`
+- Backend App Service: `genvolt-webapp-backend`
+- Frontend Static Web App: `genvolt-frontend`
 
 ## Prerequisites
 
@@ -88,14 +109,14 @@ az webapp config appsettings set \
   --resource-group GenVolt \
   --name genvolt-webapp-backend \
   --settings \
-    DB_SERVER="your-sql-server.database.windows.net" \
-    DB_DATABASE="your-database-name" \
-    DB_USERNAME="your-username" \
-    DB_PASSWORD="your-password" \
-    JWT_SECRET="your-jwt-secret-key" \
+    DB_SERVER="genvolt-sql-server.database.windows.net" \
+    DB_DATABASE="gendb" \
+    DB_USERNAME="genvolt@123" \
+    DB_PASSWORD="[Your-SQL-Server-Password]" \
+    JWT_SECRET="your-secure-jwt-secret-key-here" \
     NODE_ENV="production"
 
-# Note: Replace with your actual database credentials
+# Note: Replace JWT_SECRET with a secure random string and DB_PASSWORD with actual password
 ```
 
 ### 2.4 Configure Startup Command
@@ -206,7 +227,7 @@ Create `frontend/.env.production`:
 ```bash
 VITE_API_URL=https://genvolt-webapp-backend-epezdjc9hfcyf4hr.centralindia-01.azurewebsites.net/api/v1
 ```
-*Note: Replace with your actual backend URL*
+*Note: This is the actual backend URL from our deployment*
 
 ### 3.3 Configure SPA Routing
 Create `frontend/public/staticwebapp.config.json`:
@@ -247,7 +268,7 @@ az staticwebapp show \
 
 ### 4.2 Configure Backend CORS
 ```bash
-# Set frontend URL for CORS (replace with your actual frontend URL)
+# Set frontend URL for CORS (actual deployed frontend URL)
 az webapp config appsettings set \
   --resource-group GenVolt \
   --name genvolt-webapp-backend \
@@ -358,13 +379,13 @@ az webapp log tail --resource-group GenVolt --name genvolt-webapp-backend
 
 ### Environment Variables (Backend)
 ```bash
-DB_SERVER=your-sql-server.database.windows.net
-DB_DATABASE=your-database-name
-DB_USERNAME=your-username
-DB_PASSWORD=your-password
-JWT_SECRET=your-jwt-secret
+DB_SERVER=genvolt-sql-server.database.windows.net
+DB_DATABASE=gendb
+DB_USERNAME=genvolt@123
+DB_PASSWORD=[Your-SQL-Server-Password]
+JWT_SECRET=[Your-Secure-JWT-Secret]
 NODE_ENV=production
-FRONTEND_URL=https://your-frontend-url.azurestaticapps.net
+FRONTEND_URL=https://polite-smoke-0f45f3a00.1.azurestaticapps.net
 ```
 
 ## Troubleshooting Common Issues
@@ -384,7 +405,7 @@ az webapp restart --resource-group GenVolt --name genvolt-webapp-backend
 az webapp config appsettings list --resource-group GenVolt --name genvolt-webapp-backend
 
 # Update if needed
-az webapp config appsettings set --resource-group GenVolt --name genvolt-webapp-backend --settings FRONTEND_URL="https://your-correct-frontend-url"
+az webapp config appsettings set --resource-group GenVolt --name genvolt-webapp-backend --settings FRONTEND_URL="https://polite-smoke-0f45f3a00.1.azurestaticapps.net"
 ```
 
 ### 404 Errors on Direct URL Access
