@@ -153,7 +153,7 @@ export const DeviceManagement = () => {
           clientId: fullDevice.clientId,
           apiKey: fullDevice.apiKey,
           conversionLogicId: fullDevice.conversionLogicId.toString(),
-          model: device.model.toLowerCase().replace('-', '')
+          model: (device.model || '').toLowerCase().replace('-', '')
         });
         setIsEditDialogOpen(true);
       }
@@ -289,9 +289,9 @@ export const DeviceManagement = () => {
   };
 
   const filteredDevices = devices.filter(device =>
-    device.deviceId.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    device.clientId.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    device.model.toLowerCase().includes(searchTerm.toLowerCase())
+    (device.deviceId || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (device.clientId || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (device.model || '').toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const getStatusColor = (status: string) => {
