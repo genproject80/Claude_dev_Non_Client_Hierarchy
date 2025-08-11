@@ -1,7 +1,7 @@
 {
   "name": "iot-dashboard-backend",
   "version": "1.0.0",
-  "description": "Backend API for IoT Pulse Dashboard",
+  "description": "Backend API for IoT Pulse Dashboard - Azure Deployment Ready",
   "main": "server.js",
   "type": "module",
   "scripts": {
