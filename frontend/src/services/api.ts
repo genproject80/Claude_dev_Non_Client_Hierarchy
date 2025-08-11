@@ -1,5 +1,5 @@
 // API configuration and service layer
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3003/api/v1';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api/v1';
 
 // Types for API responses
 interface ApiResponse<T> {
