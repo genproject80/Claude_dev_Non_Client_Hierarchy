@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FaultTiles } from "@/components/dashboard/FaultTiles";
@@ -11,6 +12,7 @@ import FrontendPermissionService from "@/services/permissionService";
 
 const UnifiedDashboard = () => {
   const { user } = useAuth();
+  const [searchParams] = useSearchParams();
   
   // IoT Dashboard State
   const [devices, setDevices] = useState<Device[]>([]);
@@ -83,18 +85,27 @@ const UnifiedDashboard = () => {
   const shouldShowIoTDashboard = () => canAccessIoT;
   const shouldShowMotorDashboard = () => canAccessMotor;
 
-  // Determine default tab based on user permissions
+  // Determine tab based on URL parameters and user permissions
   useEffect(() => {
     if (permissionsLoading) return;
     
-    if (shouldShowTabs) {
-      setActiveTab("iot"); // Default to IoT if user can see both
-    } else if (canAccessMotor && !canAccessIoT) {
-      setActiveTab("motor"); // Motor dashboard only
+    // First check URL parameters
+    const tabParam = searchParams.get("tab");
+    if (tabParam === "motor" && canAccessMotor) {
+      setActiveTab("motor");
+    } else if (tabParam === "iot" && canAccessIoT) {
+      setActiveTab("iot");
     } else {
-      setActiveTab("iot"); // Default to IoT
+      // Fall back to permission-based defaults
+      if (shouldShowTabs) {
+        setActiveTab("iot"); // Default to IoT if user can see both
+      } else if (canAccessMotor && !canAccessIoT) {
+        setActiveTab("motor"); // Motor dashboard only
+      } else {
+        setActiveTab("iot"); // Default to IoT
+      }
     }
-  }, [shouldShowTabs, canAccessIoT, canAccessMotor, permissionsLoading]);
+  }, [shouldShowTabs, canAccessIoT, canAccessMotor, permissionsLoading, searchParams]);
 
   // Fetch IoT Dashboard data
   const fetchIoTData = async () => {

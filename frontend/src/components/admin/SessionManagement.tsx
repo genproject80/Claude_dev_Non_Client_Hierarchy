@@ -36,6 +36,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
+import { Checkbox } from "@/components/ui/checkbox";
 import { CalendarIcon, Trash2, Users, Activity, Clock, Monitor, ChevronLeft, ChevronRight, Search, X, ArrowUpDown, ArrowUp, ArrowDown } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
@@ -80,6 +81,8 @@ export const SessionManagement = () => {
   const [stats, setStats] = useState<SessionStats | null>(null);
   const [loading, setLoading] = useState(true);
   const [terminatingSession, setTerminatingSession] = useState<string | null>(null);
+  const [selectedSessions, setSelectedSessions] = useState<Set<string>>(new Set());
+  const [terminatingMultiple, setTerminatingMultiple] = useState(false);
   const [currentFilter, setCurrentFilter] = useState<FilterType>('active');
   const [pagination, setPagination] = useState<Pagination | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -175,6 +178,71 @@ export const SessionManagement = () => {
     }
   };
 
+  const handleBulkTerminate = async () => {
+    if (selectedSessions.size === 0) return;
+    
+    try {
+      setTerminatingMultiple(true);
+      const sessionIds = Array.from(selectedSessions);
+      const response = await adminApi.terminateMultipleSessions(sessionIds);
+
+      if (response.success) {
+        const { successful, failed, total } = response.data;
+        
+        toast({
+          title: "Bulk Termination Complete",
+          description: `Successfully terminated ${successful} of ${total} sessions${failed > 0 ? `. ${failed} failed.` : '.'}`,
+          variant: failed > 0 ? "destructive" : "default",
+        });
+        
+        // Clear selection and refresh
+        setSelectedSessions(new Set());
+        await fetchSessions(currentPage, currentFilter, debouncedSearch, dateRange);
+      }
+    } catch (error) {
+      console.error('Error terminating multiple sessions:', error);
+      toast({
+        title: "Error",
+        description: "Failed to terminate sessions",
+        variant: "destructive",
+      });
+    } finally {
+      setTerminatingMultiple(false);
+    }
+  };
+
+  const handleSelectSession = (sessionId: string, checked: boolean) => {
+    const newSelected = new Set(selectedSessions);
+    if (checked) {
+      newSelected.add(sessionId);
+    } else {
+      newSelected.delete(sessionId);
+    }
+    setSelectedSessions(newSelected);
+  };
+
+  const handleSelectAll = (checked: boolean) => {
+    if (checked) {
+      const activeSessionIds = sessions
+        .filter(session => session.is_active)
+        .map(session => session.session_id);
+      setSelectedSessions(new Set(activeSessionIds));
+    } else {
+      setSelectedSessions(new Set());
+    }
+  };
+
+  const isAllSelected = () => {
+    const activeSessionIds = sessions.filter(session => session.is_active).map(s => s.session_id);
+    return activeSessionIds.length > 0 && activeSessionIds.every(id => selectedSessions.has(id));
+  };
+
+  const isIndeterminate = () => {
+    const activeSessionIds = sessions.filter(session => session.is_active).map(s => s.session_id);
+    const selectedActiveIds = activeSessionIds.filter(id => selectedSessions.has(id));
+    return selectedActiveIds.length > 0 && selectedActiveIds.length < activeSessionIds.length;
+  };
+
   // Debounce search term
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -187,6 +255,7 @@ export const SessionManagement = () => {
   // Fetch sessions when debounced search changes
   useEffect(() => {
     setCurrentPage(1); // Reset to first page when searching
+    setSelectedSessions(new Set()); // Clear selection when searching
     fetchSessions(1, currentFilter, debouncedSearch, dateRange);
   }, [debouncedSearch]);
 
@@ -210,6 +279,7 @@ export const SessionManagement = () => {
   const handleFilterChange = async (filter: FilterType) => {
     setCurrentPage(1); // Reset to first page when changing filter
     setCurrentFilter(filter);
+    setSelectedSessions(new Set()); // Clear selection when changing filters
     
     // For custom filter, only fetch if date range is already set
     if (filter === 'custom') {
@@ -224,6 +294,7 @@ export const SessionManagement = () => {
   };
 
   const handlePageChange = async (page: number) => {
+    setSelectedSessions(new Set()); // Clear selection when changing pages
     await fetchSessions(page, currentFilter, debouncedSearch, dateRange);
   };
 
@@ -529,10 +600,73 @@ export const SessionManagement = () => {
             </div>
           )}
 
+          {/* Bulk Actions */}
+          {selectedSessions.size > 0 && (
+            <div className="mb-4 p-3 bg-muted/50 rounded-lg border">
+              <div className="flex items-center justify-between">
+                <span className="text-sm font-medium">
+                  {selectedSessions.size} session{selectedSessions.size !== 1 ? 's' : ''} selected
+                </span>
+                <div className="flex space-x-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setSelectedSessions(new Set())}
+                  >
+                    Clear Selection
+                  </Button>
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <Button
+                        variant="destructive"
+                        size="sm"
+                        disabled={terminatingMultiple}
+                      >
+                        <Trash2 className="h-4 w-4 mr-1" />
+                        Terminate Selected
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>Terminate Multiple Sessions</AlertDialogTitle>
+                        <AlertDialogDescription>
+                          Are you sure you want to terminate {selectedSessions.size} selected session{selectedSessions.size !== 1 ? 's' : ''}? 
+                          The affected users will be logged out immediately.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction
+                          onClick={handleBulkTerminate}
+                          className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                        >
+                          Terminate All Selected
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
+                </div>
+              </div>
+            </div>
+          )}
+
           <div className="rounded-md border">
             <Table>
               <TableHeader>
                 <TableRow>
+                  <TableHead className="w-12">
+                    <Checkbox
+                      checked={isAllSelected()}
+                      onCheckedChange={handleSelectAll}
+                      aria-label="Select all sessions"
+                      className={isIndeterminate() ? "data-[state=checked]:bg-primary" : ""}
+                      ref={(ref) => {
+                        if (ref) {
+                          ref.indeterminate = isIndeterminate();
+                        }
+                      }}
+                    />
+                  </TableHead>
                   <TableHead>
                     <Button
                       variant="ghost"
@@ -584,13 +718,23 @@ export const SessionManagement = () => {
               <TableBody>
                 {sessions.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={10} className="text-center py-8 text-muted-foreground">
+                    <TableCell colSpan={11} className="text-center py-8 text-muted-foreground">
                       No sessions found
                     </TableCell>
                   </TableRow>
                 ) : (
                   sessions.map((session) => (
                     <TableRow key={session.session_id}>
+                      <TableCell>
+                        <Checkbox
+                          checked={selectedSessions.has(session.session_id)}
+                          onCheckedChange={(checked) => 
+                            handleSelectSession(session.session_id, checked as boolean)
+                          }
+                          disabled={!session.is_active}
+                          aria-label={`Select session for ${session.user_name}`}
+                        />
+                      </TableCell>
                       <TableCell className="font-medium">{session.user_name}</TableCell>
                       <TableCell>{session.email}</TableCell>
                       <TableCell>

@@ -1,4 +1,3 @@
-import { Device } from "@/types/device";
 import { useState, useEffect } from "react";
 import {
   Table,
@@ -14,25 +13,43 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
-import { Clock, Activity, Filter, RefreshCw, ChevronLeft, ChevronRight } from "lucide-react";
-import { deviceApi } from "@/services/api";
+import { Clock, Activity, RefreshCw, ChevronLeft, ChevronRight, Signal, MapPin, Zap } from "lucide-react";
+import { motorApi } from "@/services/api";
 
-interface HistoricDataTableProps {
+interface MotorDataPoint {
+  entryId: number;
+  gsmSignalStrength: number;
+  motorOnTimeSec: number;
+  motorOffTimeSec: number;
+  wheelsConfigured: number;
+  latitude: number;
+  longitude: number;
+  wheelsDetected: number;
+  faultCode: number;
+  motorCurrentMA: number;
+  createdAt: string;
+  hexField: string;
+  timestamp: string;
   deviceId: string;
-  historicData: Device[];
-  onRecordSelect?: (record: Device) => void;
 }
 
-export const HistoricDataTable = ({ deviceId, historicData: initialData, onRecordSelect }: HistoricDataTableProps) => {
-  const [historicData, setHistoricData] = useState<Device[]>([]);
+interface MotorHistoricDataTableProps {
+  deviceId: string;
+  historicData: MotorDataPoint[];
+  onRecordSelect?: (record: MotorDataPoint) => void;
+}
+
+export const MotorHistoricDataTable = ({ deviceId, historicData: initialData, onRecordSelect }: MotorHistoricDataTableProps) => {
+  const [historicData, setHistoricData] = useState<MotorDataPoint[]>([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalRecords, setTotalRecords] = useState(0);
-  const [selectedRecord, setSelectedRecord] = useState<Device | null>(null);
+  const [selectedRecord, setSelectedRecord] = useState<MotorDataPoint | null>(null);
   
   // Filter states
-  const [statusFilter, setStatusFilter] = useState<string>('all');
+  const [motorStatusFilter, setMotorStatusFilter] = useState<string>('all');
+  const [faultFilter, setFaultFilter] = useState<string>('all');
   const [dateRange, setDateRange] = useState<string>('2h'); // Default to 2 hours
   const [searchTerm, setSearchTerm] = useState<string>('');
   
@@ -74,7 +91,7 @@ export const HistoricDataTable = ({ deviceId, historicData: initialData, onRecor
     setLoading(true);
     try {
       const { startDate, endDate } = getDateRange(dateRange);
-      const response = await deviceApi.getData(deviceId, {
+      const response = await motorApi.getData(deviceId, {
         page: currentPage,
         limit: itemsPerPage,
         startDate: startDate || undefined,
@@ -84,18 +101,18 @@ export const HistoricDataTable = ({ deviceId, historicData: initialData, onRecor
       if (response.success) {
         const transformedData = response.data.map((point: any) => ({
           entryId: point.entryId,
-          runtimeMin: point.runtimeMin,
-          faultCodes: point.faultCodes || "",
-          faultDescriptions: point.faultDescriptions || "",
-          leadingFaultCode: point.leadingFaultCode || 0,
-          leadingFaultTimeHr: point.leadingFaultTimeHr || 0,
-          gensetSignal: point.gensetSignal || "Unknown",
-          thermostatStatus: point.thermostatStatus || "Unknown",
-          hvOutputVoltage_kV: point.hvOutputVoltage_kV || 0,
-          hvSourceNo: point.hvSourceNo || 0,
-          hvOutputCurrent_mA: point.hvOutputCurrent_mA || 0,
+          gsmSignalStrength: point.gsmSignalStrength || 0,
+          motorOnTimeSec: point.motorOnTimeSec || 0,
+          motorOffTimeSec: point.motorOffTimeSec || 0,
+          wheelsConfigured: point.wheelsConfigured || 0,
+          latitude: point.latitude || 0,
+          longitude: point.longitude || 0,
+          wheelsDetected: point.wheelsDetected || 0,
+          faultCode: point.faultCode || 0,
+          motorCurrentMA: point.motorCurrentMA || 0,
+          createdAt: point.timestamp || point.createdAt,
           hexField: point.hexField || "",
-          createdAt: point.timestamp,
+          timestamp: point.timestamp || point.createdAt,
           deviceId: deviceId
         }));
         
@@ -106,7 +123,7 @@ export const HistoricDataTable = ({ deviceId, historicData: initialData, onRecor
         }
       }
     } catch (error) {
-      console.error('Error fetching filtered data:', error);
+      console.error('Error fetching filtered motor data:', error);
     } finally {
       setLoading(false);
     }
@@ -119,11 +136,42 @@ export const HistoricDataTable = ({ deviceId, historicData: initialData, onRecor
   };
 
   // Handle record selection
-  const handleRecordSelect = (record: Device) => {
+  const handleRecordSelect = (record: MotorDataPoint) => {
     setSelectedRecord(record);
     if (onRecordSelect) {
       onRecordSelect(record);
     }
+  };
+
+  // Motor status helpers
+  const getMotorStatusBadge = (motorOnTime: number, motorOffTime: number) => {
+    if (motorOnTime > motorOffTime) {
+      return <Badge variant="default" className="bg-success text-success-foreground">Running</Badge>;
+    }
+    return <Badge variant="secondary">Stopped</Badge>;
+  };
+
+  const getFaultBadge = (faultCode: number) => {
+    if (faultCode === 0) {
+      return <Badge variant="secondary" className="bg-success text-success-foreground">Normal</Badge>;
+    }
+    if (faultCode > 10) {
+      return <Badge variant="destructive">Critical</Badge>;
+    }
+    return <Badge variant="outline" className="border-warning text-warning">Warning</Badge>;
+  };
+
+  const getGsmStrengthIcon = (signal: number) => {
+    if (signal === 0) {
+      return <Signal className="h-4 w-4 text-destructive" />;
+    } else if (signal >= 1 && signal <= 2) {
+      return <Signal className="h-4 w-4 text-destructive" />;
+    } else if (signal === 3) {
+      return <Signal className="h-4 w-4 text-warning" />;
+    } else if (signal >= 4 && signal <= 6) {
+      return <Signal className="h-4 w-4 text-success" />;
+    }
+    return <Signal className="h-4 w-4 text-muted-foreground" />;
   };
 
   // Effects
@@ -133,14 +181,15 @@ export const HistoricDataTable = ({ deviceId, historicData: initialData, onRecor
 
   useEffect(() => {
     applyFilters();
-  }, [statusFilter, searchTerm]);
+  }, [motorStatusFilter, faultFilter, searchTerm]);
+
   return (
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <Clock className="h-5 w-5" />
-            <span>Historic Data for Device {deviceId}</span>
+            <span>Historic Data for Motor Device {deviceId}</span>
           </div>
           <Button 
             onClick={fetchFilteredData} 
@@ -173,10 +222,25 @@ export const HistoricDataTable = ({ deviceId, historicData: initialData, onRecor
             </Select>
           </div>
           
-          {/* Status Filter */}
+          {/* Motor Status Filter */}
+          <div className="flex items-center space-x-2">
+            <label className="text-sm font-medium">Motor:</label>
+            <Select value={motorStatusFilter} onValueChange={setMotorStatusFilter}>
+              <SelectTrigger className="w-32">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Motors</SelectItem>
+                <SelectItem value="running">Running</SelectItem>
+                <SelectItem value="stopped">Stopped</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          
+          {/* Fault Filter */}
           <div className="flex items-center space-x-2">
             <label className="text-sm font-medium">Status:</label>
-            <Select value={statusFilter} onValueChange={setStatusFilter}>
+            <Select value={faultFilter} onValueChange={setFaultFilter}>
               <SelectTrigger className="w-32">
                 <SelectValue />
               </SelectTrigger>
@@ -192,7 +256,7 @@ export const HistoricDataTable = ({ deviceId, historicData: initialData, onRecor
           <div className="flex items-center space-x-2">
             <label className="text-sm font-medium">Search:</label>
             <Input 
-              placeholder="Search fault codes, descriptions..." 
+              placeholder="Search entry ID, fault codes..." 
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-64"
@@ -200,6 +264,7 @@ export const HistoricDataTable = ({ deviceId, historicData: initialData, onRecor
           </div>
         </div>
       </CardHeader>
+
       <CardContent>
         {loading ? (
           <div className="flex items-center justify-center py-8">
@@ -212,13 +277,13 @@ export const HistoricDataTable = ({ deviceId, historicData: initialData, onRecor
               <TableHeader>
                 <TableRow>
                   <TableHead>Timestamp</TableHead>
-                  <TableHead>Runtime (min)</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>HV Output (kV)</TableHead>
-                  <TableHead>HV Current (mA)</TableHead>
-                  <TableHead>Genset Signal</TableHead>
-                  <TableHead>Thermostat</TableHead>
-                  <TableHead>Fault Codes</TableHead>
+                  <TableHead>Entry ID</TableHead>
+                  <TableHead>GSM Signal</TableHead>
+                  <TableHead>Motor Status</TableHead>
+                  <TableHead>Current (mA)</TableHead>
+                  <TableHead>Wheels</TableHead>
+                  <TableHead>Location</TableHead>
+                  <TableHead>Fault Status</TableHead>
                   <TableHead>Actions</TableHead>
                 </TableRow>
               </TableHeader>
@@ -234,33 +299,34 @@ export const HistoricDataTable = ({ deviceId, historicData: initialData, onRecor
                     <TableCell className="font-mono text-sm">
                       {new Date(entry.createdAt).toLocaleString()}
                     </TableCell>
-                    <TableCell>{entry.runtimeMin}</TableCell>
+                    <TableCell className="font-medium">#{entry.entryId}</TableCell>
                     <TableCell>
-                      <div className="flex items-center space-x-2">
-                        <Activity 
-                          className={`h-4 w-4 ${
-                            entry.faultCodes ? "text-destructive" : "text-success"
-                          }`} 
-                        />
-                        <Badge variant={entry.faultCodes ? "destructive" : "outline"}>
-                          {entry.faultCodes ? "Fault" : "Normal"}
-                        </Badge>
+                      <div className="flex items-center gap-2">
+                        {getGsmStrengthIcon(entry.gsmSignalStrength)}
+                        <span>{entry.gsmSignalStrength}</span>
                       </div>
                     </TableCell>
-                    <TableCell>{entry.hvOutputVoltage_kV}</TableCell>
-                    <TableCell>{entry.hvOutputCurrent_mA}</TableCell>
                     <TableCell>
-                      <Badge variant={entry.gensetSignal === "On" ? "default" : "secondary"}>
-                        {entry.gensetSignal}
-                      </Badge>
+                      {getMotorStatusBadge(entry.motorOnTimeSec, entry.motorOffTimeSec)}
+                    </TableCell>
+                    <TableCell className="font-mono">{entry.motorCurrentMA}</TableCell>
+                    <TableCell>
+                      <span className="text-sm">
+                        {entry.wheelsDetected}/{entry.wheelsConfigured}
+                      </span>
                     </TableCell>
                     <TableCell>
-                      <Badge variant={entry.thermostatStatus === "On" ? "default" : "secondary"}>
-                        {entry.thermostatStatus}
-                      </Badge>
+                      {entry.latitude !== 0 || entry.longitude !== 0 ? (
+                        <div className="flex items-center gap-1">
+                          <MapPin className="h-4 w-4 text-success" />
+                          <span className="text-sm">GPS</span>
+                        </div>
+                      ) : (
+                        <span className="text-muted-foreground text-sm">No GPS</span>
+                      )}
                     </TableCell>
-                    <TableCell className="font-mono text-sm">
-                      {entry.faultCodes || "-"}
+                    <TableCell>
+                      {getFaultBadge(entry.faultCode)}
                     </TableCell>
                     <TableCell>
                       <Button 
@@ -346,23 +412,25 @@ export const HistoricDataTable = ({ deviceId, historicData: initialData, onRecor
             )}
           </>
         )}
+
         {historicData.length === 0 && !loading && (
           <div className="text-center py-8">
-            <Activity className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+            <Zap className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
             <h3 className="text-lg font-medium">No Historic Data</h3>
             <p className="text-muted-foreground">
-              {(statusFilter !== 'all' || searchTerm)
+              {(motorStatusFilter !== 'all' || faultFilter !== 'all' || searchTerm)
                 ? 'No entries match the current filters'
-                : 'No historic entries found for this device'
+                : 'No historic entries found for this motor device'
               }
             </p>
-            {(statusFilter !== 'all' || searchTerm) && (
+            {(motorStatusFilter !== 'all' || faultFilter !== 'all' || searchTerm) && (
               <Button 
                 variant="outline" 
                 size="sm" 
                 className="mt-4"
                 onClick={() => {
-                  setStatusFilter('all');
+                  setMotorStatusFilter('all');
+                  setFaultFilter('all');
                   setSearchTerm('');
                 }}
               >

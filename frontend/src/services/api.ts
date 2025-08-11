@@ -546,6 +546,25 @@ export const adminApi = {
   terminateSession: async (sessionId: string) => {
     return apiClient.delete<ApiResponse<any>>(`/admin/sessions/${sessionId}`);
   },
+  terminateMultipleSessions: async (sessionIds: string[]) => {
+    // Terminate sessions one by one since there's no bulk endpoint
+    const results = await Promise.allSettled(
+      sessionIds.map(id => apiClient.delete<ApiResponse<any>>(`/admin/sessions/${id}`))
+    );
+    
+    const successful = results.filter(result => result.status === 'fulfilled').length;
+    const failed = results.length - successful;
+    
+    return {
+      success: true,
+      data: {
+        total: sessionIds.length,
+        successful,
+        failed,
+        results
+      }
+    };
+  },
 
   getSessionStats: async () => {
     return apiClient.get<ApiResponse<{

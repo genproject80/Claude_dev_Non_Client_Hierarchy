@@ -45,8 +45,8 @@ export const MotorDeviceTable = ({ devices }: MotorDeviceTableProps) => {
         (filters.faultStatus === "fault" && device.faultCode > 0) ||
         (filters.faultStatus === "normal" && device.faultCode === 0);
       const matchesGsmStrength = filters.gsmStrength === "all" ||
-        (filters.gsmStrength === "strong" && device.gsmSignalStrength > 100) ||
-        (filters.gsmStrength === "weak" && device.gsmSignalStrength <= 100);
+        (filters.gsmStrength === "strong" && device.gsmSignalStrength >= 4) ||
+        (filters.gsmStrength === "weak" && device.gsmSignalStrength <= 3);
 
       return matchesSearch && matchesMotorStatus && matchesFaultStatus && matchesGsmStrength;
     });
@@ -100,10 +100,16 @@ export const MotorDeviceTable = ({ devices }: MotorDeviceTableProps) => {
   };
 
   const getGsmStrengthIcon = (signal: number) => {
-    if (signal > 100) {
+    if (signal === 0) {
+      return <Signal className="h-4 w-4 text-destructive" />;
+    } else if (signal >= 1 && signal <= 2) {
+      return <Signal className="h-4 w-4 text-destructive" />;
+    } else if (signal === 3) {
+      return <Signal className="h-4 w-4 text-warning" />;
+    } else if (signal >= 4 && signal <= 6) {
       return <Signal className="h-4 w-4 text-success" />;
     }
-    return <Signal className="h-4 w-4 text-warning" />;
+    return <Signal className="h-4 w-4 text-muted-foreground" />;
   };
 
   const handleDeviceClick = (deviceId: string) => {
@@ -169,8 +175,8 @@ export const MotorDeviceTable = ({ devices }: MotorDeviceTableProps) => {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All Signals</SelectItem>
-                <SelectItem value="strong">Strong</SelectItem>
-                <SelectItem value="weak">Weak</SelectItem>
+                <SelectItem value="strong">Strong (4-6)</SelectItem>
+                <SelectItem value="weak">Weak (0-3)</SelectItem>
               </SelectContent>
             </Select>
           </div>

@@ -13,6 +13,7 @@ export const DeviceDetail = () => {
   const navigate = useNavigate();
   
   const [device, setDevice] = useState<any>(null);
+  const [selectedRecord, setSelectedRecord] = useState<any>(null);
   const [historicData, setHistoricData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -25,10 +26,17 @@ export const DeviceDetail = () => {
         setLoading(true);
         setError(null);
 
-        // Fetch device details and historical data in parallel
+        // Fetch device details and initial historical data (last 2 hours)
+        const now = new Date();
+        const twoHoursAgo = new Date(now.getTime() - 2 * 60 * 60 * 1000);
+        
         const [deviceResponse, dataResponse] = await Promise.all([
           deviceApi.getById(deviceId),
-          deviceApi.getData(deviceId, { limit: 100 })
+          deviceApi.getData(deviceId, { 
+            limit: 100,
+            startDate: twoHoursAgo.toISOString(),
+            endDate: now.toISOString()
+          })
         ]);
 
         if (deviceResponse.success) {
@@ -61,6 +69,7 @@ export const DeviceDetail = () => {
             createdAt: latestData?.timestamp || new Date().toISOString()
           };
           setDevice(transformedDevice);
+          setSelectedRecord(transformedDevice); // Set latest data as initially selected
         }
 
         if (dataResponse.success) {
@@ -94,6 +103,18 @@ export const DeviceDetail = () => {
 
     fetchDeviceData();
   }, [deviceId]);
+
+  // Handle record selection from historic data table
+  const handleRecordSelection = (record: any) => {
+    setSelectedRecord(record);
+  };
+
+  // Get the data to display in the detailed section (selected record or latest device data)
+  const getDisplayData = () => {
+    return selectedRecord || device;
+  };
+
+  const displayData = getDisplayData();
   
   if (loading) {
     return (
@@ -167,11 +188,18 @@ export const DeviceDetail = () => {
               <p className="text-muted-foreground">Detailed device information and diagnostics</p>
             </div>
           </div>
-          <div className="flex items-center space-x-2">
-            {getSeverityIcon(device.faultCodes)}
-            <Badge variant={device.faultCodes ? "destructive" : "outline"}>
-              {device.faultCodes ? "Fault Detected" : "Normal Operation"}
-            </Badge>
+          <div className="flex items-center space-x-4">
+            {selectedRecord && selectedRecord.entryId !== device.entryId && (
+              <Badge variant="secondary" className="text-xs">
+                Viewing Historic Record #{selectedRecord.entryId}
+              </Badge>
+            )}
+            <div className="flex items-center space-x-2">
+              {getSeverityIcon(displayData.faultCodes)}
+              <Badge variant={displayData.faultCodes ? "destructive" : "outline"}>
+                {displayData.faultCodes ? "Fault Detected" : "Normal Operation"}
+              </Badge>
+            </div>
           </div>
         </div>
 
@@ -199,9 +227,15 @@ export const DeviceDetail = () => {
                 <span className="font-medium">{device.conversionLogicID}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Last Update:</span>
-                <span className="font-medium text-sm">{new Date(device.createdAt).toLocaleString()}</span>
+                <span className="text-muted-foreground">Record Time:</span>
+                <span className="font-medium text-sm">{new Date(displayData.createdAt).toLocaleString()}</span>
               </div>
+              {selectedRecord && selectedRecord.entryId !== device.entryId && (
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Entry ID:</span>
+                  <span className="font-medium">#{displayData.entryId}</span>
+                </div>
+              )}
             </CardContent>
           </Card>
 
@@ -213,23 +247,23 @@ export const DeviceDetail = () => {
             <CardContent className="space-y-4">
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Runtime:</span>
-                <span className="font-medium">{device.runtimeMin} minutes</span>
+                <span className="font-medium">{displayData.runtimeMin} minutes</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Genset Signal:</span>
-                <Badge variant={device.gensetSignal === "On" ? "default" : "secondary"}>
-                  {device.gensetSignal}
+                <Badge variant={displayData.gensetSignal === "On" ? "default" : "secondary"}>
+                  {displayData.gensetSignal}
                 </Badge>
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Thermostat:</span>
-                <Badge variant={device.thermostatStatus === "On" ? "default" : "secondary"}>
-                  {device.thermostatStatus}
+                <Badge variant={displayData.thermostatStatus === "On" ? "default" : "secondary"}>
+                  {displayData.thermostatStatus}
                 </Badge>
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Entry ID:</span>
-                <span className="font-medium">#{device.entryId}</span>
+                <span className="font-medium">#{displayData.entryId}</span>
               </div>
             </CardContent>
           </Card>
@@ -242,20 +276,20 @@ export const DeviceDetail = () => {
             <CardContent className="space-y-4">
               <div className="flex justify-between">
                 <span className="text-muted-foreground">HV Output Voltage:</span>
-                <span className="font-medium">{device.hvOutputVoltage_kV} kV</span>
+                <span className="font-medium">{displayData.hvOutputVoltage_kV} kV</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">HV Output Current:</span>
-                <span className="font-medium">{device.hvOutputCurrent_mA} mA</span>
+                <span className="font-medium">{displayData.hvOutputCurrent_mA} mA</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">HV Source No:</span>
-                <span className="font-medium">{device.hvSourceNo}</span>
+                <span className="font-medium">{displayData.hvSourceNo}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Power Status:</span>
-                <Badge variant={device.hvOutputVoltage_kV > 0 ? "default" : "secondary"}>
-                  {device.hvOutputVoltage_kV > 0 ? "Active" : "Inactive"}
+                <Badge variant={displayData.hvOutputVoltage_kV > 0 ? "default" : "secondary"}>
+                  {displayData.hvOutputVoltage_kV > 0 ? "Active" : "Inactive"}
                 </Badge>
               </div>
             </CardContent>
@@ -264,41 +298,52 @@ export const DeviceDetail = () => {
           {/* Fault Information Card */}
           <Card className="lg:col-span-3">
             <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                {getSeverityIcon(device.faultCodes)}
-                <span>Fault Information & Diagnostics</span>
+              <CardTitle className="flex items-center justify-between">
+                <div className="flex items-center space-x-2">
+                  {getSeverityIcon(displayData.faultCodes)}
+                  <span>Fault Information & Diagnostics</span>
+                </div>
+                {selectedRecord && selectedRecord.entryId !== device.entryId && (
+                  <Button 
+                    size="sm" 
+                    variant="outline"
+                    onClick={() => setSelectedRecord(device)}
+                  >
+                    View Latest Data
+                  </Button>
+                )}
               </CardTitle>
             </CardHeader>
             <CardContent>
-              {device.faultCodes ? (
+              {displayData.faultCodes ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-4">
                     <div>
                       <label className="text-sm font-medium text-muted-foreground">Active Fault Codes:</label>
-                      <p className="text-lg font-mono bg-destructive/10 p-2 rounded">{device.faultCodes}</p>
+                      <p className="text-lg font-mono bg-destructive/10 p-2 rounded">{displayData.faultCodes}</p>
                     </div>
                     <div>
                       <label className="text-sm font-medium text-muted-foreground">Leading Fault Code:</label>
-                      <p className="text-lg font-semibold text-destructive">{device.leadingFaultCode}</p>
+                      <p className="text-lg font-semibold text-destructive">{displayData.leadingFaultCode}</p>
                     </div>
                     <div>
                       <label className="text-sm font-medium text-muted-foreground">Leading Fault Duration:</label>
-                      <p className="text-lg">{device.leadingFaultTimeHr} hours</p>
+                      <p className="text-lg">{displayData.leadingFaultTimeHr} hours</p>
                     </div>
                   </div>
                   <div className="space-y-4">
                     <div>
                       <label className="text-sm font-medium text-muted-foreground">Fault Descriptions:</label>
-                      <p className="text-sm bg-muted/50 p-3 rounded-lg min-h-[100px]">{device.faultDescriptions || "No detailed fault description available"}</p>
+                      <p className="text-sm bg-muted/50 p-3 rounded-lg min-h-[100px]">{displayData.faultDescriptions || "No detailed fault description available"}</p>
                     </div>
                     <div>
                       <label className="text-sm font-medium text-muted-foreground">System Status:</label>
                       <div className="flex gap-2 mt-2">
-                        <Badge variant={device.gensetSignal === "On" ? "default" : "secondary"}>
-                          Genset: {device.gensetSignal}
+                        <Badge variant={displayData.gensetSignal === "On" ? "default" : "secondary"}>
+                          Genset: {displayData.gensetSignal}
                         </Badge>
-                        <Badge variant={device.thermostatStatus === "On" ? "default" : "secondary"}>
-                          Thermostat: {device.thermostatStatus}
+                        <Badge variant={displayData.thermostatStatus === "On" ? "default" : "secondary"}>
+                          Thermostat: {displayData.thermostatStatus}
                         </Badge>
                       </div>
                     </div>
@@ -311,13 +356,13 @@ export const DeviceDetail = () => {
                   <p className="text-muted-foreground">Device is operating normally</p>
                   <div className="flex gap-2 justify-center mt-4">
                     <Badge variant="outline">
-                      Genset: {device.gensetSignal}
+                      Genset: {displayData.gensetSignal}
                     </Badge>
                     <Badge variant="outline">
-                      Thermostat: {device.thermostatStatus}
+                      Thermostat: {displayData.thermostatStatus}
                     </Badge>
                     <Badge variant="outline">
-                      Runtime: {device.runtimeMin}min
+                      Runtime: {displayData.runtimeMin}min
                     </Badge>
                   </div>
                 </div>
@@ -341,7 +386,7 @@ export const DeviceDetail = () => {
                     </div>
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">Entry ID:</span>
-                      <span className="font-medium">#{device.entryId}</span>
+                      <span className="font-medium">#{displayData.entryId}</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">Channel ID:</span>
@@ -353,7 +398,7 @@ export const DeviceDetail = () => {
                   <h4 className="font-medium text-sm">Raw Hex Data</h4>
                   <div className="bg-muted/30 p-3 rounded-lg">
                     <p className="font-mono text-xs break-all">
-                      {device.hexField || "No hex data available"}
+                      {displayData.hexField || "No hex data available"}
                     </p>
                   </div>
                 </div>
@@ -364,7 +409,11 @@ export const DeviceDetail = () => {
 
         {/* Historic Data Section */}
         <div className="mt-8">
-          <HistoricDataTable deviceId={deviceId!} historicData={historicData} />
+          <HistoricDataTable 
+            deviceId={deviceId!} 
+            historicData={historicData} 
+            onRecordSelect={handleRecordSelection}
+          />
         </div>
       </div>
     </div>
