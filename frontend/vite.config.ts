@@ -9,12 +9,30 @@ export default defineConfig(({ mode }) => ({
     host: "::",
     port: 8080,
     proxy: {
-      // All API routes now go to Express Backend (Universal Communication migrated)
+      // Development: All API routes go to Express Backend (Universal Communication migrated)
+      // Production: API calls will go directly to deployed backend endpoint
       '/api': {
-        target: 'http://localhost:3001',
+        target: process.env.VITE_API_BASE_URL || 'http://localhost:3001',
         changeOrigin: true
       }
     }
+  },
+  // Production build configuration
+  build: {
+    outDir: 'dist',
+    sourcemap: false,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+          ui: ['@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu', '@radix-ui/react-tabs']
+        }
+      }
+    }
+  },
+  // Environment variables
+  define: {
+    'process.env.VITE_API_BASE_URL': JSON.stringify(process.env.VITE_API_BASE_URL)
   },
   plugins: [
     react(),
