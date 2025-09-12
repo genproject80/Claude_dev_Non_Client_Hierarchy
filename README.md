@@ -171,6 +171,12 @@ This project was developed to provide a comprehensive IoT monitoring solution wi
 - Real-time data processing
 - Secure authentication system
 
+## Deployment Status
+
+- **Frontend**: Azure Static Web Apps with automated GitHub Actions deployment
+- **Backend**: Azure App Service with Express.js API
+- **Database**: Azure SQL Database (Central India region)
+
 ## Support
 
 For technical support or questions, refer to the documentation in the `docs/` directory or contact the development team.
