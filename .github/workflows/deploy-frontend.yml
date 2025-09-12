@@ -48,6 +48,9 @@ jobs:
           app_location: "./frontend"
           api_location: ""
           output_location: "dist"
+          app_build_command: "npm run build"
+          app_artifact_location: "dist"
+          skip_app_build: false
           github_id_token: ${{ steps.idtoken.outputs.result }}
         env:
           # Configure build-time environment variables for React
