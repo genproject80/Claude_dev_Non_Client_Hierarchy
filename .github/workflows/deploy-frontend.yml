@@ -5,9 +5,9 @@ on:
   push:
     branches:
       - main
-    paths:
-      - 'frontend/**'
-      - '.github/workflows/deploy-frontend.yml'
+    # paths:
+      #- 'frontend/**'
+      #- '.github/workflows/deploy-frontend.yml'
   pull_request:
     types: [opened, synchronize, reopened, closed]
     branches:
@@ -51,7 +51,7 @@ jobs:
           github_id_token: ${{ steps.idtoken.outputs.result }}
         env:
           # Configure build-time environment variables for React
-          VITE_API_BASE_URL: https://genvolt-webapp-backend-epezdjc9hfcyf4hr.centralindia-01.azurewebsites.net
+          VITE_API_URL: https://genvolt-webapp-backend-epezdjc9hfcyf4hr.centralindia-01.azurewebsites.net/api/v1
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
