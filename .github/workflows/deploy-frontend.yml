@@ -1,6 +1,7 @@
 name: Deploy React Frontend to Azure Static Web Apps
 
 on:
+  workflow_dispatch:  # Manual trigger
   push:
     branches:
       - main
@@ -14,7 +15,7 @@ on:
 
 jobs:
   build_and_deploy_job:
-    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
+    if: github.event_name == 'workflow_dispatch' || github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
     runs-on: ubuntu-latest
     name: Build and Deploy Job
     steps:
@@ -34,14 +35,6 @@ jobs:
           cd frontend
           npm ci
           
-      - name: Build React App
-        run: |
-          cd frontend
-          npm run build
-        env:
-          # Configure build-time environment variables for React
-          VITE_API_BASE_URL: https://genvolt-webapp-backend-epezdjc9hfcyf4hr.centralindia-01.azurewebsites.net
-          
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
@@ -50,8 +43,11 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
           app_location: "/frontend"
-          app_build_command: "npm run build"
+          skip_app_build: false
           output_location: "dist"
+        env:
+          # Configure build-time environment variables for React
+          VITE_API_BASE_URL: https://genvolt-webapp-backend-epezdjc9hfcyf4hr.centralindia-01.azurewebsites.net
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
