@@ -1,6 +1,6 @@
 # GenVolt IoT Dashboard
 
-## Project info
+## Project Info
 
 This is the web application for monitoring GenVolt's high voltage power systems and IoT devices.
 
