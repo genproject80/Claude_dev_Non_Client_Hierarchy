@@ -118,7 +118,6 @@ frontend-dist.zip
 
 # Lock files (choose one based on your preference)
 bun.lockb
-package-lock.json
 
 # Test reports and session data
 regression-report-*.md
