@@ -13,6 +13,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import { DeviceDetail } from "./pages/DeviceDetail";
 import { MotorDeviceDetail } from "./pages/MotorDeviceDetail";
+import { HexTroubleshoot } from "./pages/HexTroubleshoot";
 import { Reports } from "./pages/Reports";
 import { Admin } from "./pages/Admin";
 import NotFound from "./pages/NotFound";
@@ -70,7 +71,40 @@ const AppRoutes = () => {
           </DashboardLayout>
         </ProtectedRoute>
       } />
-      
+
+      {/* Hex troubleshooting routes */}
+      <Route path="/device/:deviceId/troubleshoot" element={
+        <ProtectedRoute>
+          <DashboardLayout>
+            <HexTroubleshoot />
+          </DashboardLayout>
+        </ProtectedRoute>
+      } />
+
+      <Route path="/device/:deviceId/troubleshoot/:entryId" element={
+        <ProtectedRoute>
+          <DashboardLayout>
+            <HexTroubleshoot />
+          </DashboardLayout>
+        </ProtectedRoute>
+      } />
+
+      <Route path="/motor-device/:deviceId/troubleshoot" element={
+        <ProtectedRoute>
+          <DashboardLayout>
+            <HexTroubleshoot />
+          </DashboardLayout>
+        </ProtectedRoute>
+      } />
+
+      <Route path="/motor-device/:deviceId/troubleshoot/:entryId" element={
+        <ProtectedRoute>
+          <DashboardLayout>
+            <HexTroubleshoot />
+          </DashboardLayout>
+        </ProtectedRoute>
+      } />
+
       <Route path="/reports" element={
         <ProtectedRoute>
           <DashboardLayout>

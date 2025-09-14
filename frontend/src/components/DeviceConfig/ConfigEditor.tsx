@@ -8,17 +8,21 @@ import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { 
-  Save, 
-  X, 
-  FileText, 
-  AlertCircle, 
+import { Switch } from "@/components/ui/switch";
+import {
+  Save,
+  X,
+  FileText,
+  AlertCircle,
   CheckCircle,
   Copy,
   Eye,
-  EyeOff
+  EyeOff,
+  Wrench,
+  Code
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import ConfigBuilder from "./ConfigBuilder";
 
 interface DeviceConfig {
   config_id: number;
@@ -75,6 +79,7 @@ export const ConfigEditor = ({
   const [jsonError, setJsonError] = useState<string>("");
   const [saving, setSaving] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
+  const [useBuilder, setUseBuilder] = useState(false);
   const { toast } = useToast();
 
   const isEditing = !!config;
@@ -314,73 +319,101 @@ export const ConfigEditor = ({
           </div>
         )}
 
-        {/* JSON Configuration Editor */}
-        <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <Label htmlFor="config-data">Configuration Data (JSON) *</Label>
-            <div className="flex space-x-2">
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={formatJson}
-                disabled={!configData.trim() || !!jsonError}
-              >
-                Format JSON
-              </Button>
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={copyToClipboard}
-                disabled={!configData.trim()}
-              >
-                <Copy className="h-3 w-3 mr-1" />
-                Copy
-              </Button>
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={() => setShowPreview(!showPreview)}
-                disabled={!configData.trim() || !!jsonError}
-              >
-                {showPreview ? <EyeOff className="h-3 w-3 mr-1" /> : <Eye className="h-3 w-3 mr-1" />}
-                {showPreview ? "Hide" : "Preview"}
-              </Button>
-            </div>
+        {/* Editor Mode Toggle */}
+        <div className="flex items-center justify-between p-4 bg-muted rounded-lg">
+          <div className="flex items-center space-x-2">
+            <Label htmlFor="builder-mode" className="font-medium">
+              Configuration Mode:
+            </Label>
+            <Badge variant={useBuilder ? "default" : "secondary"}>
+              {useBuilder ? "Form Builder" : "JSON Editor"}
+            </Badge>
           </div>
-
-          <Textarea
-            id="config-data"
-            value={configData}
-            onChange={(e) => setConfigData(e.target.value)}
-            placeholder="Enter JSON configuration data..."
-            rows={12}
-            className={`font-mono text-sm ${jsonError ? "border-red-300" : ""}`}
-            style={{ whiteSpace: 'pre-wrap' }}
-          />
-
-          {jsonError && (
-            <Alert variant="destructive">
-              <AlertCircle className="h-4 w-4" />
-              <AlertDescription>
-                <strong>JSON Validation Error:</strong> {jsonError}
-              </AlertDescription>
-            </Alert>
-          )}
-
-          {!jsonError && configData.trim() && (
-            <Alert>
-              <CheckCircle className="h-4 w-4 text-green-600" />
-              <AlertDescription className="text-green-700">
-                JSON syntax is valid
-              </AlertDescription>
-            </Alert>
-          )}
-
-          {showPreview && renderJsonPreview()}
+          <div className="flex items-center space-x-2">
+            <Code className={`h-4 w-4 ${!useBuilder ? 'text-primary' : 'text-muted-foreground'}`} />
+            <Switch
+              id="builder-mode"
+              checked={useBuilder}
+              onCheckedChange={setUseBuilder}
+            />
+            <Wrench className={`h-4 w-4 ${useBuilder ? 'text-primary' : 'text-muted-foreground'}`} />
+          </div>
         </div>
+
+        {/* Configuration Editor - Builder or JSON */}
+        {useBuilder ? (
+          <ConfigBuilder
+            deviceId={deviceId}
+            onJsonGenerated={(json) => setConfigData(json)}
+          />
+        ) : (
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <Label htmlFor="config-data">Configuration Data (JSON) *</Label>
+              <div className="flex space-x-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={formatJson}
+                  disabled={!configData.trim() || !!jsonError}
+                >
+                  Format JSON
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={copyToClipboard}
+                  disabled={!configData.trim()}
+                >
+                  <Copy className="h-3 w-3 mr-1" />
+                  Copy
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setShowPreview(!showPreview)}
+                  disabled={!configData.trim() || !!jsonError}
+                >
+                  {showPreview ? <EyeOff className="h-3 w-3 mr-1" /> : <Eye className="h-3 w-3 mr-1" />}
+                  {showPreview ? "Hide" : "Preview"}
+                </Button>
+              </div>
+            </div>
+
+            <Textarea
+              id="config-data"
+              value={configData}
+              onChange={(e) => setConfigData(e.target.value)}
+              placeholder="Enter JSON configuration data..."
+              rows={12}
+              className={`font-mono text-sm ${jsonError ? "border-red-300" : ""}`}
+              style={{ whiteSpace: 'pre-wrap' }}
+            />
+
+            {jsonError && (
+              <Alert variant="destructive">
+                <AlertCircle className="h-4 w-4" />
+                <AlertDescription>
+                  <strong>JSON Validation Error:</strong> {jsonError}
+                </AlertDescription>
+              </Alert>
+            )}
+
+            {!jsonError && configData.trim() && (
+              <Alert>
+                <CheckCircle className="h-4 w-4 text-green-600" />
+                <AlertDescription className="text-green-700">
+                  JSON syntax is valid
+                </AlertDescription>
+              </Alert>
+            )}
+
+            {showPreview && renderJsonPreview()}
+          </div>
+        )}
 
         {/* Notes */}
         <div className="space-y-2">

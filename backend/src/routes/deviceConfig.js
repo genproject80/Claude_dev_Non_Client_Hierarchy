@@ -300,12 +300,25 @@ router.post('/admin/configs/:deviceId', [
   body('changeReason').optional().isString().isLength({ max: 500 }).trim()
 ], async (req, res) => {
   try {
+    console.log(`📝 Create Config Request - Device ID: ${req.params.deviceId}`);
+    console.log(`👤 User: ${req.user?.id || 'Unknown'} (${req.user?.role || 'Unknown role'})`);
+    console.log(`📋 Request Body:`, {
+      config_name: req.body.config_name,
+      config_data_type: typeof req.body.config_data,
+      config_data_length: req.body.config_data?.length || 0,
+      notes: req.body.notes || 'None'
+    });
+
     // Check if Device_Configurations table exists
+    console.log('🔍 Checking Device_Configurations table...');
     const configTableCheck = await database.query("SELECT COUNT(*) as table_count FROM sys.tables WHERE name = 'Device_Configurations'");
     const configTableExists = configTableCheck[0].table_count > 0;
 
+    console.log(`📊 Device_Configurations table exists: ${configTableExists}`);
+
     if (!configTableExists) {
-      return res.status(501).json({ 
+      console.log('❌ Device_Configurations table not found - returning 501');
+      return res.status(501).json({
         success: false,
         error: 'Configuration management not yet available. Database tables need to be created.',
         details: 'The Device_Configurations table does not exist. Please run the database migration to create the required tables.'
@@ -1216,6 +1229,81 @@ router.get('/admin/devices/status', [
   } catch (error) {
     console.error('Error fetching devices with configuration status:', error);
     res.status(500).json({ error: 'Failed to fetch devices with configuration status' });
+  }
+});
+
+// GET /api/v1/device-config/admin/device/:deviceId/details
+// Fetch device with ThingSpeak data for Config Builder
+router.get('/admin/device/:deviceId/details', [
+  requireAdmin,
+  param('deviceId').isString().notEmpty()
+], async (req, res) => {
+  try {
+    console.log(`📡 Device Details Request - Device ID: ${req.params.deviceId}`);
+    console.log(`👤 User: ${req.user?.id || 'Unknown'} (${req.user?.role || 'Unknown role'})`);
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.log('❌ Validation errors:', errors.array());
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { deviceId } = req.params;
+
+    console.log(`🔍 Querying database for device: ${deviceId}`);
+
+    // Query Device table for ThingSpeak info
+    const result = await database.query(`
+      SELECT
+        Device_ID,
+        Channel_ID,
+        Field_ID,
+        APIKey,
+        client_id,
+        ConversionLogicID
+      FROM device
+      WHERE Device_ID = @deviceId
+    `, { deviceId });
+
+    console.log(`📊 Query result: ${result.length} records found`);
+
+    if (!result || result.length === 0) {
+      console.log(`❌ Device ${deviceId} not found in database`);
+      return res.status(404).json({ error: 'Device not found' });
+    }
+
+    const deviceData = {
+      device_id: result[0].Device_ID,
+      channel_id: result[0].Channel_ID,
+      field_id: result[0].Field_ID,
+      api_key: result[0].APIKey,
+      client_id: result[0].client_id,
+      conversion_logic_id: result[0].ConversionLogicID
+    };
+
+    console.log(`✅ Device details found:`, {
+      device_id: deviceData.device_id,
+      channel_id: deviceData.channel_id,
+      field_id: deviceData.field_id,
+      api_key: deviceData.api_key ? '***' + deviceData.api_key.slice(-4) : 'NULL',
+      client_id: deviceData.client_id,
+      conversion_logic_id: deviceData.conversion_logic_id
+    });
+
+    res.json({
+      success: true,
+      data: deviceData
+    });
+
+  } catch (error) {
+    console.error('❌ Error fetching device details:', error);
+    console.error('Error details:', {
+      message: error.message,
+      code: error.code,
+      state: error.state,
+      stack: error.stack?.split('\n')[0]
+    });
+    res.status(500).json({ error: 'Failed to fetch device details' });
   }
 });
 

@@ -195,6 +195,19 @@ export const useDeviceConfigs = () => {
     }
   };
 
+  const loadDeviceDetails = async (deviceId: string) => {
+    try {
+      const response = await deviceConfigApi.getDeviceDetails(deviceId);
+      if (response.data?.success) {
+        return response.data.data;
+      }
+      return null;
+    } catch (error) {
+      console.error('Failed to load device details:', error);
+      return null;
+    }
+  };
+
   return {
     devices,
     selectedDevice,
@@ -208,6 +221,7 @@ export const useDeviceConfigs = () => {
     activateConfig,
     deployConfig,
     refreshData,
-    loadConfigs
+    loadConfigs,
+    loadDeviceDetails
   };
 };

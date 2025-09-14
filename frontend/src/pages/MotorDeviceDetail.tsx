@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, AlertTriangle, Activity, Zap, MapPin, Signal, Loader2, Settings, Gauge } from "lucide-react";
+import { ArrowLeft, AlertTriangle, Activity, Zap, MapPin, Signal, Loader2, Settings, Gauge, Wrench } from "lucide-react";
 import { motorApi } from "@/services/api";
 import { MotorHistoricDataTable } from "@/components/dashboard/MotorHistoricDataTable";
 
@@ -440,7 +440,20 @@ export const MotorDeviceDetail = () => {
                   </div>
                 </div>
                 <div className="space-y-3">
-                  <h4 className="font-medium text-sm">Raw Hex Data</h4>
+                  <div className="flex items-center justify-between">
+                    <h4 className="font-medium text-sm">Raw Hex Data</h4>
+                    {(displayData?.hexField || latestData.hexField) && (
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => navigate(`/motor-device/${deviceId}/troubleshoot${selectedRecord && selectedRecord.entryId !== device?.latestData.entryId ? `/${selectedRecord.entryId}` : ''}`)}
+                        className="flex items-center gap-2"
+                      >
+                        <Wrench className="w-3 h-3" />
+                        Troubleshoot
+                      </Button>
+                    )}
+                  </div>
                   <div className="bg-muted/30 p-3 rounded-lg">
                     <p className="font-mono text-xs break-all">
                       {displayData?.hexField || latestData.hexField || "No hex data available"}

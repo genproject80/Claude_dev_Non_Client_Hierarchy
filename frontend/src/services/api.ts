@@ -137,7 +137,7 @@ class ApiClient {
 
 // Create API client instances
 const apiClient = new ApiClient(API_BASE_URL);
-const configApiClient = new ApiClient(CONFIG_API_BASE_URL);
+// const configApiClient = new ApiClient(CONFIG_API_BASE_URL); // No longer needed after Phase 1 migration
 
 // Authentication API
 export const authApi = {
@@ -759,9 +759,9 @@ export const healthApi = {
 
 // Device Configuration API
 export const deviceConfigApi = {
-  // Admin routes for device configuration management (updated to use app-admin prefix and config API client)
+  // Admin routes for device configuration management (using Express backend)
   getConfigs: async (deviceId: string) => {
-    return configApiClient.get<ApiResponse<any[]>>(`/app-admin/device-config/configs?deviceId=${deviceId}`);
+    return apiClient.get<ApiResponse<any[]>>(`/device-config/admin/configs?deviceId=${deviceId}`);
   },
   
   createConfig: async (deviceId: string, data: {
@@ -769,36 +769,41 @@ export const deviceConfigApi = {
     config_data: any;
     notes?: string;
   }) => {
-    return configApiClient.post<ApiResponse<any>>(`/app-admin/device-config/configs/${deviceId}`, data);
+    return apiClient.post<ApiResponse<any>>(`/device-config/admin/configs/${deviceId}`, data);
   },
   
   activateConfig: async (deviceId: string, configId: number) => {
     console.log('API: Making activation request', { deviceId, configId });
-    const response = await configApiClient.post<ApiResponse<any>>(`/app-admin/device-config/configs/${deviceId}/activate/${configId}`, {});
+    const response = await apiClient.post<ApiResponse<any>>(`/device-config/admin/configs/${deviceId}/activate`, { configId });
     console.log('API: Activation response received', response);
     return response;
   },
   
   getDeployments: async () => {
-    return configApiClient.get<ApiResponse<any[]>>(`/app-admin/device-config/deployments`);
+    return apiClient.get<ApiResponse<any[]>>(`/device-config/admin/deployments`);
   },
   
   deployConfig: async (deviceId: string, configId: number) => {
-    return configApiClient.post<ApiResponse<any>>(`/app-admin/device-config/deployments/${deviceId}/deploy`, { configId });
+    return apiClient.post<ApiResponse<any>>(`/device-config/admin/deployments/${deviceId}/deploy`, { configId });
   },
   
   getConfigAuditLog: async (configId: number) => {
-    return configApiClient.get<ApiResponse<any[]>>(`/app-admin/device-config/audit/${configId}`);
+    return apiClient.get<ApiResponse<any[]>>(`/device-config/admin/audit/${configId}`);
   },
   
   // Get all devices with their configuration status
   getDevicesWithConfigStatus: async () => {
-    return configApiClient.get<ApiResponse<any[]>>(`/app-admin/device-config/devices/status`);
+    return apiClient.get<ApiResponse<any[]>>(`/device-config/admin/devices/status`);
   },
   
   // Get configuration templates for easier config creation
   getConfigTemplates: async () => {
-    return configApiClient.get<ApiResponse<any[]>>(`/app-admin/device-config/templates`);
+    return apiClient.get<ApiResponse<any[]>>(`/device-config/admin/templates`);
+  },
+
+  // Get device details with ThingSpeak data for Config Builder
+  getDeviceDetails: async (deviceId: string) => {
+    return apiClient.get<ApiResponse<any>>(`/device-config/admin/device/${deviceId}/details`);
   }
 };
 

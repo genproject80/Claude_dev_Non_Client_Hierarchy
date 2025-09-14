@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ArrowLeft, AlertTriangle, Activity, Zap, Loader2, Settings } from "lucide-react";
+import { ArrowLeft, AlertTriangle, Activity, Zap, Loader2, Settings, Wrench } from "lucide-react";
 import { deviceApi } from "@/services/api";
 import { HistoricDataTable } from "@/components/dashboard/HistoricDataTable";
 import { ApiKeyViewer } from "@/components/admin/ApiKeyViewer";
@@ -397,7 +397,20 @@ export const DeviceDetail = () => {
                   </div>
                 </div>
                 <div className="space-y-3">
-                  <h4 className="font-medium text-sm">Raw Hex Data</h4>
+                  <div className="flex items-center justify-between">
+                    <h4 className="font-medium text-sm">Raw Hex Data</h4>
+                    {displayData.hexField && (
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => navigate(`/device/${deviceId}/troubleshoot${selectedRecord && selectedRecord.entryId !== device.entryId ? `/${selectedRecord.entryId}` : ''}`)}
+                        className="flex items-center gap-2"
+                      >
+                        <Wrench className="w-3 h-3" />
+                        Troubleshoot
+                      </Button>
+                    )}
+                  </div>
                   <div className="bg-muted/30 p-3 rounded-lg">
                     <p className="font-mono text-xs break-all">
                       {displayData.hexField || "No hex data available"}
