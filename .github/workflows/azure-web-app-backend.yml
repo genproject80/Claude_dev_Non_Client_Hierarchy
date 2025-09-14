@@ -6,12 +6,13 @@ on:
       - main
     paths:
       - 'backend/**'
+      - '.github/workflows/deploy-back.yml'
   workflow_dispatch:
 
 env:
   AZURE_WEBAPP_NAME: genvolt-webapp-backend
-  NODE_VERSION: '18'
-  AZURE_WEBAPP_PACKAGE_PATH: backend
+  NODE_VERSION: '18.x'
+  AZURE_WEBAPP_PACKAGE_PATH: './backend'
 
 jobs:
   build:
@@ -30,7 +31,7 @@ jobs:
       - name: Install dependencies
         run: |
           cd backend
-          npm ci --only=production
+          npm ci --production
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
