@@ -1,0 +1,7 @@
+<step title="BackgroundTrace" date="2025-09-14T08:06:29.891" instance="b6e968" url="/deploy" method="POST" >
+  <step title="Creating temporary deployment - FetchDeploymentManager" date="2025-09-14T08:06:30.232" /><!-- duration: 6ms -->
+  <step title="Creating temporary deployment" date="2025-09-14T08:06:30.245" /><!-- duration: 95ms -->
+  <step title="Performing fetch based deployment" date="2025-09-14T08:06:30.733" >
+    <step title="Cleaning up temporary deployment - fetch deployment was successful" date="2025-09-14T08:06:35.543" /><!-- duration: 92ms -->
+  </step><!-- duration: 5154ms -->
+</step><!-- duration: 6105ms -->

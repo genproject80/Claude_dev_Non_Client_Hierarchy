@@ -1,0 +1,599 @@
+<step title="BackgroundTrace" date="2025-09-14T11:10:41.377" instance="b6e968" url="/api/publish" method="POST" >
+  <step title="Cleanup Xml Logs" date="2025-09-14T11:10:41.397" >
+    <step title="Cleanup Infos" date="2025-09-14T11:10:41.467" totalFiles="414" totalCleanup="254" /><!-- duration: 28ms -->
+  </step><!-- duration: 127ms -->
+  <step title="Creating temporary deployment - FetchDeploymentManager" date="2025-09-14T11:10:42.076" /><!-- duration: 19ms -->
+  <step title="Creating temporary deployment" date="2025-09-14T11:10:42.114" /><!-- duration: 531ms -->
+  <step title="Performing fetch based deployment" date="2025-09-14T11:10:42.885" >
+    <step title="Cleaning up temp folders from previous zip deployments and extracting pushed zip file /tmp/zipdeploy/89717bad-a737-4886-a21c-9f91c707325f.zip (17.73 MB) to /tmp/zipdeploy/extracted" date="2025-09-14T11:10:44.611" >
+      <step title="ChmodRecursive Process exited with total time taken in ms: 277" date="2025-09-14T11:11:25.521" /><!-- duration: 21ms -->
+    </step><!-- duration: 40969ms -->
+    <step title="Deployment timer started" date="2025-09-14T11:11:27.716" >
+      <step title="DeploymentManager.Deploy(id:6cf96d3d-6c1d-46f0-bfff-e7e9987a6c3b)" date="2025-09-14T11:11:27.774" >
+        <step title="Collecting changeset information" date="2025-09-14T11:11:27.864" /><!-- duration: 410ms -->
+        <step title="Updating submodules" date="2025-09-14T11:11:28.299" /><!-- duration: 1269ms -->
+        <step title="Determining deployment builder" date="2025-09-14T11:11:30.120" >
+          <step title="Specific project was specified: backend" date="2025-09-14T11:11:30.177" /><!-- duration: 30ms -->
+          <step title="Builder is OryxBuilder" date="2025-09-14T11:11:30.287" /><!-- duration: 10ms -->
+        </step><!-- duration: 194ms -->
+        <step title="PreDeployment: context.CleanOutputPath False" date="2025-09-14T11:11:30.433" >
+          <step title="PreDeployment: context.OutputPath /home/site/wwwroot" date="2025-09-14T11:11:30.816" >
+            <step title="Building" date="2025-09-14T11:11:31.253" >
+              <step title="Executing external process" date="2025-09-14T11:11:32.792" type="process" path="bash" arguments="-c &quot;oryx build /tmp/zipdeploy/extracted -o /home/site/wwwroot --platform nodejs --platform-version 20 -p virtualenv_name= --log-file /tmp/build-debug.log  -i /tmp/8ddf37f74d9078f -p compress_node_modules=tar-gz | tee /tmp/oryx-build.log ; exit $PIPESTATUS &quot;" >
+                <step title="Process dump" date="2025-09-14T11:12:32.259" exitCode="1" type="processOutput" /><!-- duration: 71ms -->
+              </step><!-- duration: 60420ms -->
+              <step title="Error occurred" date="2025-09-14T11:12:34.922" type="error" text="Error: Oops... An unexpected error has occurred.
+Error: System.AggregateException: Http request to retrieve the SDKs available to download from &apos;https://oryxsdks-cdn.azureedge.net&apos; failed. Please ensure that your network configuration allows traffic to required Oryx dependencies, as documented in &apos;https://github.com/microsoft/Oryx/blob/main/doc/hosts/appservice.md#network-dependencies&apos;
+System.AggregateException: One or more errors occurred. (A task was canceled.)
+ ---&gt; System.Threading.Tasks.TaskCanceledException: A task was canceled.
+   at System.Threading.Tasks.Task.GetExceptions(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at Microsoft.Oryx.BuildScriptGenerator.ListBlobsHelper.GetAllBlobs(String sdkStorageBaseUrl, String platform, HttpClient httpClient) in /__w/1/s/Oryx/src/BuildScriptGenerator/Helpers/ListBlobsHelper.cs:line 21
+   at Microsoft.Oryx.BuildScriptGenerator.SdkStorageVersionProviderBase.GetAvailableVersionsFromStorage(String platformName) in /__w/1/s/Oryx/src/BuildScriptGenerator/SdkStorageVersionProviderBase.cs:line 59
+   at Microsoft.Oryx.BuildScriptGenerator.Node.NodeSdkStorageVersionProvider.GetVersionInfo() in /__w/1/s/Oryx/src/BuildScriptGenerator/Node/VersionProviders/NodeSdkStorageVersionProvider.cs:line 29
+   at Microsoft.Oryx.BuildScriptGenerator.Node.NodeVersionProvider.GetVersionInfo() in /__w/1/s/Oryx/src/BuildScriptGenerator/Node/VersionProviders/NodeVersionProvider.cs:line 53
+   at Microsoft.Oryx.BuildScriptGenerator.Node.NodePlatform.GetMaxSatisfyingVersionAndVerify(String version) in /__w/1/s/Oryx/src/BuildScriptGenerator/Node/NodePlatform.cs:line 722
+   at Microsoft.Oryx.BuildScriptGenerator.Node.NodePlatform.ResolveVersions(RepositoryContext context, PlatformDetectorResult detectorResult) in /__w/1/s/Oryx/src/BuildScriptGenerator/Node/NodePlatform.cs:line 570
+   at Microsoft.Oryx.BuildScriptGenerator.Node.NodePlatform.Detect(RepositoryContext context) in /__w/1/s/Oryx/src/BuildScriptGenerator/Node/NodePlatform.cs:line 150
+   at Microsoft.Oryx.BuildScriptGenerator.DefaultPlatformsInformationProvider.GetPlatformsInfo(RepositoryContext context) in /__w/1/s/Oryx/src/BuildScriptGenerator/DefaultPlatformsInformationProvider.cs:line 65
+   at Microsoft.Oryx.BuildScriptGenerator.DefaultBuildScriptGenerator.GenerateBashScript(BuildScriptGeneratorContext context, String&amp; script, List`1 checkerMessageSink) in /__w/1/s/Oryx/src/BuildScriptGenerator/DefaultBuildScriptGenerator.cs:line 75
+   at Microsoft.Oryx.BuildScriptGeneratorCli.BuildScriptGenerator.TryGenerateScript(String&amp; generatedScript, Exception&amp; exception) in /__w/1/s/Oryx/src/BuildScriptGeneratorCli/BuildScriptGenerator.cs:line 63
+   at Microsoft.Oryx.BuildScriptGeneratorCli.BuildCommand.Execute(IServiceProvider serviceProvider, IConsole console) in /__w/1/s/Oryx/src/BuildScriptGeneratorCli/Commands/BuildCommand.cs:line 278
+   at Microsoft.Oryx.BuildScriptGeneratorCli.CommandBase.OnExecute(IConsole console) in /__w/1/s/Oryx/src/BuildScriptGeneratorCli/Commands/CommandBase.cs:line 87
+   at Microsoft.Oryx.BuildScriptGeneratorCli.BuildCommand.&lt;&gt;c__DisplayClass25_0.&lt;Export&gt;b__1(BuildCommandProperty prop) in /__w/1/s/Oryx/src/BuildScriptGeneratorCli/Commands/BuildCommand.cs:line 169
+   at System.CommandLine.Handler.&lt;&gt;c__DisplayClass13_0`1.&lt;SetHandler&gt;b__0(InvocationContext context)
+   at System.CommandLine.Invocation.AnonymousCommandHandler.InvokeAsync(InvocationContext context)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.Invocation.AnonymousCommandHandler.InvokeAsync(InvocationContext context)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_0.&lt;&lt;BuildInvocationChain&gt;b__0&gt;d.MoveNext()
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_0.&lt;BuildInvocationChain&gt;b__0(InvocationContext invocationContext, Func`2 _)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_2.&lt;BuildInvocationChain&gt;b__3(InvocationContext c)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c__DisplayClass17_0.&lt;&lt;UseParseErrorReporting&gt;b__0&gt;d.MoveNext()
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c__DisplayClass17_0.&lt;UseParseErrorReporting&gt;b__0(InvocationContext context, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_2.&lt;BuildInvocationChain&gt;b__3(InvocationContext c)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c__DisplayClass12_0.&lt;&lt;UseHelp&gt;b__0&gt;d.MoveNext()
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c__DisplayClass12_0.&lt;UseHelp&gt;b__0(InvocationContext context, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_2.&lt;BuildInvocationChain&gt;b__3(InvocationContext c)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c__DisplayClass22_0.&lt;&lt;UseVersionOption&gt;b__0&gt;d.MoveNext()
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c__DisplayClass22_0.&lt;UseVersionOption&gt;b__0(InvocationContext context, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_2.&lt;BuildInvocationChain&gt;b__3(InvocationContext c)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c__DisplayClass19_0.&lt;&lt;UseTypoCorrections&gt;b__0&gt;d.MoveNext()
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c__DisplayClass19_0.&lt;UseTypoCorrections&gt;b__0(InvocationContext context, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_2.&lt;BuildInvocationChain&gt;b__3(InvocationContext c)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c.&lt;&lt;UseSuggestDirective&gt;b__18_0&gt;d.MoveNext()
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c.&lt;UseSuggestDirective&gt;b__18_0(InvocationContext context, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_2.&lt;BuildInvocationChain&gt;b__3(InvocationContext c)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c__DisplayClass16_0.&lt;&lt;UseParseDirective&gt;b__0&gt;d.MoveNext()
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c__DisplayClass16_0.&lt;UseParseDirective&gt;b__0(InvocationContext context, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_2.&lt;BuildInvocationChain&gt;b__3(InvocationContext c)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c.&lt;&lt;RegisterWithDotnetSuggest&gt;b__5_0&gt;d.MoveNext()
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c.&lt;RegisterWithDotnetSuggest&gt;b__5_0(InvocationContext context, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_2.&lt;BuildInvocationChain&gt;b__3(InvocationContext c)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c.&lt;UseEnvironmentVariableDirective&gt;b__6_0(InvocationContext context, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_2.&lt;BuildInvocationChain&gt;b__3(InvocationContext c)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c__DisplayClass8_0.&lt;&lt;UseExceptionHandler&gt;b__0&gt;d.MoveNext()
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c__DisplayClass8_0.&lt;UseExceptionHandler&gt;b__0(InvocationContext context, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_2.&lt;BuildInvocationChain&gt;b__3(InvocationContext c)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c.&lt;&lt;CancelOnProcessTermination&gt;b__1_0&gt;d.MoveNext()
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c.&lt;CancelOnProcessTermination&gt;b__1_0(InvocationContext context, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_1.&lt;BuildInvocationChain&gt;b__2(InvocationContext ctx, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_1.&lt;BuildInvocationChain&gt;b__2(InvocationContext ctx, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_1.&lt;BuildInvocationChain&gt;b__2(InvocationContext ctx, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_1.&lt;BuildInvocationChain&gt;b__2(InvocationContext ctx, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_1.&lt;BuildInvocationChain&gt;b__2(InvocationContext ctx, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_1.&lt;BuildInvocationChain&gt;b__2(InvocationContext ctx, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_1.&lt;BuildInvocationChain&gt;b__2(InvocationContext ctx, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_1.&lt;BuildInvocationChain&gt;b__2(InvocationContext ctx, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_1.&lt;BuildInvocationChain&gt;b__2(InvocationContext ctx, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_1.&lt;BuildInvocationChain&gt;b__2(InvocationContext ctx, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;InvokeAsync&gt;g__FullInvocationChainAsync|2_0(InvocationContext context)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;InvokeAsync&gt;g__FullInvocationChainAsync|2_0(InvocationContext context)
+   at System.CommandLine.Invocation.InvocationPipeline.InvokeAsync(IConsole console)
+   at System.CommandLine.CommandExtensions.InvokeAsync(Command command, String[] args, IConsole console)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.CommandExtensions.InvokeAsync(Command command, String[] args, IConsole console)
+   at Microsoft.Oryx.BuildScriptGeneratorCli.Program.Main(String[] args) in /__w/1/s/Oryx/src/BuildScriptGeneratorCli/Program.cs:line 51
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at Microsoft.Oryx.BuildScriptGeneratorCli.Program.Main(String[] args)
+   at Microsoft.Oryx.BuildScriptGeneratorCli.Program.&lt;Main&gt;(String[] args)
+--- End of stack trace from previous location ---
+
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at Microsoft.Oryx.BuildScriptGenerator.ListBlobsHelper.GetAllBlobs(String sdkStorageBaseUrl, String platform, HttpClient httpClient) in /__w/1/s/Oryx/src/BuildScriptGenerator/Helpers/ListBlobsHelper.cs:line 21
+   at Microsoft.Oryx.BuildScriptGenerator.ListBlobsHelper.GetAllBlobs(String sdkStorageBaseUrl, String platform, HttpClient httpClient) in /__w/1/s/Oryx/src/BuildScriptGenerator/Helpers/ListBlobsHelper.cs:line 27
+   at Microsoft.Oryx.BuildScriptGenerator.SdkStorageVersionProviderBase.GetAvailableVersionsFromStorage(String platformName) in /__w/1/s/Oryx/src/BuildScriptGenerator/SdkStorageVersionProviderBase.cs:line 67
+   at Microsoft.Oryx.BuildScriptGenerator.Node.NodeSdkStorageVersionProvider.GetVersionInfo() in /__w/1/s/Oryx/src/BuildScriptGenerator/Node/VersionProviders/NodeSdkStorageVersionProvider.cs:line 29
+   at Microsoft.Oryx.BuildScriptGenerator.Node.NodeVersionProvider.GetVersionInfo() in /__w/1/s/Oryx/src/BuildScriptGenerator/Node/VersionProviders/NodeVersionProvider.cs:line 53
+   at Microsoft.Oryx.BuildScriptGenerator.Node.NodePlatform.GetMaxSatisfyingVersionAndVerify(String version) in /__w/1/s/Oryx/src/BuildScriptGenerator/Node/NodePlatform.cs:line 722
+   at Microsoft.Oryx.BuildScriptGenerator.Node.NodePlatform.ResolveVersions(RepositoryContext context, PlatformDetectorResult detectorResult) in /__w/1/s/Oryx/src/BuildScriptGenerator/Node/NodePlatform.cs:line 570
+   at Microsoft.Oryx.BuildScriptGenerator.Node.NodePlatform.Detect(RepositoryContext context) in /__w/1/s/Oryx/src/BuildScriptGenerator/Node/NodePlatform.cs:line 150
+   at Microsoft.Oryx.BuildScriptGenerator.DefaultPlatformsInformationProvider.GetPlatformsInfo(RepositoryContext context) in /__w/1/s/Oryx/src/BuildScriptGenerator/DefaultPlatformsInformationProvider.cs:line 65
+   at Microsoft.Oryx.BuildScriptGenerator.DefaultBuildScriptGenerator.GenerateBashScript(BuildScriptGeneratorContext context, String&amp; script, List`1 checkerMessageSink) in /__w/1/s/Oryx/src/BuildScriptGenerator/DefaultBuildScriptGenerator.cs:line 75
+   at Microsoft.Oryx.BuildScriptGeneratorCli.BuildScriptGenerator.TryGenerateScript(String&amp; generatedScript, Exception&amp; exception) in /__w/1/s/Oryx/src/BuildScriptGeneratorCli/BuildScriptGenerator.cs:line 63
+   at Microsoft.Oryx.BuildScriptGeneratorCli.BuildCommand.Execute(IServiceProvider serviceProvider, IConsole console) in /__w/1/s/Oryx/src/BuildScriptGeneratorCli/Commands/BuildCommand.cs:line 278
+   at Microsoft.Oryx.BuildScriptGeneratorCli.CommandBase.OnExecute(IConsole console) in /__w/1/s/Oryx/src/BuildScriptGeneratorCli/Commands/CommandBase.cs:line 87
+/bin/bash -c &quot;oryx build /tmp/zipdeploy/extracted -o /home/site/wwwroot --platform nodejs --platform-version 20 -p virtualenv_name= --log-file /tmp/build-debug.log  -i /tmp/8ddf37f74d9078f -p compress_node_modules=tar-gz | tee /tmp/oryx-build.log ; exit $PIPESTATUS &quot;" stackTrace="   at Kudu.Core.Infrastructure.Executable.ExecuteInternal(ITracer tracer, Func`2 onWriteOutput, Func`2 onWriteError, CancellationToken token, Encoding encoding, String arguments, Object[] args) in /tmp/KuduLite/Kudu.Core/Infrastructure/Executable.cs:line 239
+   at Kudu.Core.Infrastructure.Executable.ExecuteWithProgressWriter(ILogger logger, ITracer tracer, CancellationToken token, String arguments, Object[] args) in /tmp/KuduLite/Kudu.Core/Infrastructure/Executable.cs:line 118
+   at Kudu.Core.Deployment.Generator.ExternalCommandBuilder.RunCommand(DeploymentContext context, String command, Boolean ignoreManifest, CancellationToken token, String message) in /tmp/KuduLite/Kudu.Core/Deployment/Generator/ExternalCommandBuilder.cs:line 122" /><!-- duration: 57ms -->
+              <step title="Error occurred" date="2025-09-14T11:12:35.270" type="error" text="Error: Oops... An unexpected error has occurred.
+Error: System.AggregateException: Http request to retrieve the SDKs available to download from &apos;https://oryxsdks-cdn.azureedge.net&apos; failed. Please ensure that your network configuration allows traffic to required Oryx dependencies, as documented in &apos;https://github.com/microsoft/Oryx/blob/main/doc/hosts/appservice.md#network-dependencies&apos;
+System.AggregateException: One or more errors occurred. (A task was canceled.)
+ ---&gt; System.Threading.Tasks.TaskCanceledException: A task was canceled.
+   at System.Threading.Tasks.Task.GetExceptions(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at Microsoft.Oryx.BuildScriptGenerator.ListBlobsHelper.GetAllBlobs(String sdkStorageBaseUrl, String platform, HttpClient httpClient) in /__w/1/s/Oryx/src/BuildScriptGenerator/Helpers/ListBlobsHelper.cs:line 21
+   at Microsoft.Oryx.BuildScriptGenerator.SdkStorageVersionProviderBase.GetAvailableVersionsFromStorage(String platformName) in /__w/1/s/Oryx/src/BuildScriptGenerator/SdkStorageVersionProviderBase.cs:line 59
+   at Microsoft.Oryx.BuildScriptGenerator.Node.NodeSdkStorageVersionProvider.GetVersionInfo() in /__w/1/s/Oryx/src/BuildScriptGenerator/Node/VersionProviders/NodeSdkStorageVersionProvider.cs:line 29
+   at Microsoft.Oryx.BuildScriptGenerator.Node.NodeVersionProvider.GetVersionInfo() in /__w/1/s/Oryx/src/BuildScriptGenerator/Node/VersionProviders/NodeVersionProvider.cs:line 53
+   at Microsoft.Oryx.BuildScriptGenerator.Node.NodePlatform.GetMaxSatisfyingVersionAndVerify(String version) in /__w/1/s/Oryx/src/BuildScriptGenerator/Node/NodePlatform.cs:line 722
+   at Microsoft.Oryx.BuildScriptGenerator.Node.NodePlatform.ResolveVersions(RepositoryContext context, PlatformDetectorResult detectorResult) in /__w/1/s/Oryx/src/BuildScriptGenerator/Node/NodePlatform.cs:line 570
+   at Microsoft.Oryx.BuildScriptGenerator.Node.NodePlatform.Detect(RepositoryContext context) in /__w/1/s/Oryx/src/BuildScriptGenerator/Node/NodePlatform.cs:line 150
+   at Microsoft.Oryx.BuildScriptGenerator.DefaultPlatformsInformationProvider.GetPlatformsInfo(RepositoryContext context) in /__w/1/s/Oryx/src/BuildScriptGenerator/DefaultPlatformsInformationProvider.cs:line 65
+   at Microsoft.Oryx.BuildScriptGenerator.DefaultBuildScriptGenerator.GenerateBashScript(BuildScriptGeneratorContext context, String&amp; script, List`1 checkerMessageSink) in /__w/1/s/Oryx/src/BuildScriptGenerator/DefaultBuildScriptGenerator.cs:line 75
+   at Microsoft.Oryx.BuildScriptGeneratorCli.BuildScriptGenerator.TryGenerateScript(String&amp; generatedScript, Exception&amp; exception) in /__w/1/s/Oryx/src/BuildScriptGeneratorCli/BuildScriptGenerator.cs:line 63
+   at Microsoft.Oryx.BuildScriptGeneratorCli.BuildCommand.Execute(IServiceProvider serviceProvider, IConsole console) in /__w/1/s/Oryx/src/BuildScriptGeneratorCli/Commands/BuildCommand.cs:line 278
+   at Microsoft.Oryx.BuildScriptGeneratorCli.CommandBase.OnExecute(IConsole console) in /__w/1/s/Oryx/src/BuildScriptGeneratorCli/Commands/CommandBase.cs:line 87
+   at Microsoft.Oryx.BuildScriptGeneratorCli.BuildCommand.&lt;&gt;c__DisplayClass25_0.&lt;Export&gt;b__1(BuildCommandProperty prop) in /__w/1/s/Oryx/src/BuildScriptGeneratorCli/Commands/BuildCommand.cs:line 169
+   at System.CommandLine.Handler.&lt;&gt;c__DisplayClass13_0`1.&lt;SetHandler&gt;b__0(InvocationContext context)
+   at System.CommandLine.Invocation.AnonymousCommandHandler.InvokeAsync(InvocationContext context)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.Invocation.AnonymousCommandHandler.InvokeAsync(InvocationContext context)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_0.&lt;&lt;BuildInvocationChain&gt;b__0&gt;d.MoveNext()
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_0.&lt;BuildInvocationChain&gt;b__0(InvocationContext invocationContext, Func`2 _)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_2.&lt;BuildInvocationChain&gt;b__3(InvocationContext c)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c__DisplayClass17_0.&lt;&lt;UseParseErrorReporting&gt;b__0&gt;d.MoveNext()
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c__DisplayClass17_0.&lt;UseParseErrorReporting&gt;b__0(InvocationContext context, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_2.&lt;BuildInvocationChain&gt;b__3(InvocationContext c)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c__DisplayClass12_0.&lt;&lt;UseHelp&gt;b__0&gt;d.MoveNext()
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c__DisplayClass12_0.&lt;UseHelp&gt;b__0(InvocationContext context, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_2.&lt;BuildInvocationChain&gt;b__3(InvocationContext c)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c__DisplayClass22_0.&lt;&lt;UseVersionOption&gt;b__0&gt;d.MoveNext()
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c__DisplayClass22_0.&lt;UseVersionOption&gt;b__0(InvocationContext context, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_2.&lt;BuildInvocationChain&gt;b__3(InvocationContext c)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c__DisplayClass19_0.&lt;&lt;UseTypoCorrections&gt;b__0&gt;d.MoveNext()
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c__DisplayClass19_0.&lt;UseTypoCorrections&gt;b__0(InvocationContext context, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_2.&lt;BuildInvocationChain&gt;b__3(InvocationContext c)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c.&lt;&lt;UseSuggestDirective&gt;b__18_0&gt;d.MoveNext()
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c.&lt;UseSuggestDirective&gt;b__18_0(InvocationContext context, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_2.&lt;BuildInvocationChain&gt;b__3(InvocationContext c)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c__DisplayClass16_0.&lt;&lt;UseParseDirective&gt;b__0&gt;d.MoveNext()
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c__DisplayClass16_0.&lt;UseParseDirective&gt;b__0(InvocationContext context, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_2.&lt;BuildInvocationChain&gt;b__3(InvocationContext c)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c.&lt;&lt;RegisterWithDotnetSuggest&gt;b__5_0&gt;d.MoveNext()
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c.&lt;RegisterWithDotnetSuggest&gt;b__5_0(InvocationContext context, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_2.&lt;BuildInvocationChain&gt;b__3(InvocationContext c)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c.&lt;UseEnvironmentVariableDirective&gt;b__6_0(InvocationContext context, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_2.&lt;BuildInvocationChain&gt;b__3(InvocationContext c)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c__DisplayClass8_0.&lt;&lt;UseExceptionHandler&gt;b__0&gt;d.MoveNext()
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c__DisplayClass8_0.&lt;UseExceptionHandler&gt;b__0(InvocationContext context, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_2.&lt;BuildInvocationChain&gt;b__3(InvocationContext c)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c.&lt;&lt;CancelOnProcessTermination&gt;b__1_0&gt;d.MoveNext()
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c.&lt;CancelOnProcessTermination&gt;b__1_0(InvocationContext context, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_1.&lt;BuildInvocationChain&gt;b__2(InvocationContext ctx, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_1.&lt;BuildInvocationChain&gt;b__2(InvocationContext ctx, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_1.&lt;BuildInvocationChain&gt;b__2(InvocationContext ctx, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_1.&lt;BuildInvocationChain&gt;b__2(InvocationContext ctx, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_1.&lt;BuildInvocationChain&gt;b__2(InvocationContext ctx, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_1.&lt;BuildInvocationChain&gt;b__2(InvocationContext ctx, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_1.&lt;BuildInvocationChain&gt;b__2(InvocationContext ctx, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_1.&lt;BuildInvocationChain&gt;b__2(InvocationContext ctx, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_1.&lt;BuildInvocationChain&gt;b__2(InvocationContext ctx, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_1.&lt;BuildInvocationChain&gt;b__2(InvocationContext ctx, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;InvokeAsync&gt;g__FullInvocationChainAsync|2_0(InvocationContext context)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;InvokeAsync&gt;g__FullInvocationChainAsync|2_0(InvocationContext context)
+   at System.CommandLine.Invocation.InvocationPipeline.InvokeAsync(IConsole console)
+   at System.CommandLine.CommandExtensions.InvokeAsync(Command command, String[] args, IConsole console)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.CommandExtensions.InvokeAsync(Command command, String[] args, IConsole console)
+   at Microsoft.Oryx.BuildScriptGeneratorCli.Program.Main(String[] args) in /__w/1/s/Oryx/src/BuildScriptGeneratorCli/Program.cs:line 51
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at Microsoft.Oryx.BuildScriptGeneratorCli.Program.Main(String[] args)
+   at Microsoft.Oryx.BuildScriptGeneratorCli.Program.&lt;Main&gt;(String[] args)
+--- End of stack trace from previous location ---
+
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at Microsoft.Oryx.BuildScriptGenerator.ListBlobsHelper.GetAllBlobs(String sdkStorageBaseUrl, String platform, HttpClient httpClient) in /__w/1/s/Oryx/src/BuildScriptGenerator/Helpers/ListBlobsHelper.cs:line 21
+   at Microsoft.Oryx.BuildScriptGenerator.ListBlobsHelper.GetAllBlobs(String sdkStorageBaseUrl, String platform, HttpClient httpClient) in /__w/1/s/Oryx/src/BuildScriptGenerator/Helpers/ListBlobsHelper.cs:line 27
+   at Microsoft.Oryx.BuildScriptGenerator.SdkStorageVersionProviderBase.GetAvailableVersionsFromStorage(String platformName) in /__w/1/s/Oryx/src/BuildScriptGenerator/SdkStorageVersionProviderBase.cs:line 67
+   at Microsoft.Oryx.BuildScriptGenerator.Node.NodeSdkStorageVersionProvider.GetVersionInfo() in /__w/1/s/Oryx/src/BuildScriptGenerator/Node/VersionProviders/NodeSdkStorageVersionProvider.cs:line 29
+   at Microsoft.Oryx.BuildScriptGenerator.Node.NodeVersionProvider.GetVersionInfo() in /__w/1/s/Oryx/src/BuildScriptGenerator/Node/VersionProviders/NodeVersionProvider.cs:line 53
+   at Microsoft.Oryx.BuildScriptGenerator.Node.NodePlatform.GetMaxSatisfyingVersionAndVerify(String version) in /__w/1/s/Oryx/src/BuildScriptGenerator/Node/NodePlatform.cs:line 722
+   at Microsoft.Oryx.BuildScriptGenerator.Node.NodePlatform.ResolveVersions(RepositoryContext context, PlatformDetectorResult detectorResult) in /__w/1/s/Oryx/src/BuildScriptGenerator/Node/NodePlatform.cs:line 570
+   at Microsoft.Oryx.BuildScriptGenerator.Node.NodePlatform.Detect(RepositoryContext context) in /__w/1/s/Oryx/src/BuildScriptGenerator/Node/NodePlatform.cs:line 150
+   at Microsoft.Oryx.BuildScriptGenerator.DefaultPlatformsInformationProvider.GetPlatformsInfo(RepositoryContext context) in /__w/1/s/Oryx/src/BuildScriptGenerator/DefaultPlatformsInformationProvider.cs:line 65
+   at Microsoft.Oryx.BuildScriptGenerator.DefaultBuildScriptGenerator.GenerateBashScript(BuildScriptGeneratorContext context, String&amp; script, List`1 checkerMessageSink) in /__w/1/s/Oryx/src/BuildScriptGenerator/DefaultBuildScriptGenerator.cs:line 75
+   at Microsoft.Oryx.BuildScriptGeneratorCli.BuildScriptGenerator.TryGenerateScript(String&amp; generatedScript, Exception&amp; exception) in /__w/1/s/Oryx/src/BuildScriptGeneratorCli/BuildScriptGenerator.cs:line 63
+   at Microsoft.Oryx.BuildScriptGeneratorCli.BuildCommand.Execute(IServiceProvider serviceProvider, IConsole console) in /__w/1/s/Oryx/src/BuildScriptGeneratorCli/Commands/BuildCommand.cs:line 278
+   at Microsoft.Oryx.BuildScriptGeneratorCli.CommandBase.OnExecute(IConsole console) in /__w/1/s/Oryx/src/BuildScriptGeneratorCli/Commands/CommandBase.cs:line 87
+/bin/bash -c &quot;oryx build /tmp/zipdeploy/extracted -o /home/site/wwwroot --platform nodejs --platform-version 20 -p virtualenv_name= --log-file /tmp/build-debug.log  -i /tmp/8ddf37f74d9078f -p compress_node_modules=tar-gz | tee /tmp/oryx-build.log ; exit $PIPESTATUS &quot;" stackTrace="   at Kudu.Core.Infrastructure.Executable.ExecuteInternal(ITracer tracer, Func`2 onWriteOutput, Func`2 onWriteError, CancellationToken token, Encoding encoding, String arguments, Object[] args) in /tmp/KuduLite/Kudu.Core/Infrastructure/Executable.cs:line 239
+   at Kudu.Core.Infrastructure.Executable.ExecuteWithProgressWriter(ILogger logger, ITracer tracer, CancellationToken token, String arguments, Object[] args) in /tmp/KuduLite/Kudu.Core/Infrastructure/Executable.cs:line 118
+   at Kudu.Core.Deployment.Generator.ExternalCommandBuilder.RunCommand(DeploymentContext context, String command, Boolean ignoreManifest, CancellationToken token, String message) in /tmp/KuduLite/Kudu.Core/Deployment/Generator/ExternalCommandBuilder.cs:line 122
+   at Kudu.Core.Deployment.Generator.OryxBuilder.RunBuildCommand(IOryxArguments args, DeploymentContext context, CancellationToken token) in /tmp/KuduLite/Kudu.Core/Deployment/Generator/OryxBuilder.cs:line 282
+   at Kudu.Core.Deployment.Generator.OryxBuilder.Build(DeploymentContext context, CancellationToken token) in /tmp/KuduLite/Kudu.Core/Deployment/Generator/OryxBuilder.cs:line 123
+   at Kudu.Core.Deployment.DeploymentManager.Build(ChangeSet changeSet, ITracer tracer, IDisposable deployStep, IRepository repository, DeploymentInfoBase deploymentInfo, DeploymentAnalytics deploymentAnalytics, Boolean fullBuildByDefault, CancellationToken cancellationToken) in /tmp/KuduLite/Kudu.Core/Deployment/DeploymentManager.cs:line 771" /><!-- duration: 68ms -->
+              <step title="Using GenericDeploymentLogParser" date="2025-09-14T11:12:37.250" /><!-- duration: 78ms -->
+              <step title="Purge deployment items" date="2025-09-14T11:12:44.818" >
+                <step title="Remove temp-effa, Failed, received at 09/14/2025 07:21:19" date="2025-09-14T11:12:45.292" /><!-- duration: 49ms -->
+              </step><!-- duration: 627ms -->
+            </step><!-- duration: 74300ms -->
+          </step><!-- duration: 74837ms -->
+          <step title="Error occurred" date="2025-09-14T11:12:45.688" type="error" text="Error: Oops... An unexpected error has occurred.
+Error: System.AggregateException: Http request to retrieve the SDKs available to download from &apos;https://oryxsdks-cdn.azureedge.net&apos; failed. Please ensure that your network configuration allows traffic to required Oryx dependencies, as documented in &apos;https://github.com/microsoft/Oryx/blob/main/doc/hosts/appservice.md#network-dependencies&apos;
+System.AggregateException: One or more errors occurred. (A task was canceled.)
+ ---&gt; System.Threading.Tasks.TaskCanceledException: A task was canceled.
+   at System.Threading.Tasks.Task.GetExceptions(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at Microsoft.Oryx.BuildScriptGenerator.ListBlobsHelper.GetAllBlobs(String sdkStorageBaseUrl, String platform, HttpClient httpClient) in /__w/1/s/Oryx/src/BuildScriptGenerator/Helpers/ListBlobsHelper.cs:line 21
+   at Microsoft.Oryx.BuildScriptGenerator.SdkStorageVersionProviderBase.GetAvailableVersionsFromStorage(String platformName) in /__w/1/s/Oryx/src/BuildScriptGenerator/SdkStorageVersionProviderBase.cs:line 59
+   at Microsoft.Oryx.BuildScriptGenerator.Node.NodeSdkStorageVersionProvider.GetVersionInfo() in /__w/1/s/Oryx/src/BuildScriptGenerator/Node/VersionProviders/NodeSdkStorageVersionProvider.cs:line 29
+   at Microsoft.Oryx.BuildScriptGenerator.Node.NodeVersionProvider.GetVersionInfo() in /__w/1/s/Oryx/src/BuildScriptGenerator/Node/VersionProviders/NodeVersionProvider.cs:line 53
+   at Microsoft.Oryx.BuildScriptGenerator.Node.NodePlatform.GetMaxSatisfyingVersionAndVerify(String version) in /__w/1/s/Oryx/src/BuildScriptGenerator/Node/NodePlatform.cs:line 722
+   at Microsoft.Oryx.BuildScriptGenerator.Node.NodePlatform.ResolveVersions(RepositoryContext context, PlatformDetectorResult detectorResult) in /__w/1/s/Oryx/src/BuildScriptGenerator/Node/NodePlatform.cs:line 570
+   at Microsoft.Oryx.BuildScriptGenerator.Node.NodePlatform.Detect(RepositoryContext context) in /__w/1/s/Oryx/src/BuildScriptGenerator/Node/NodePlatform.cs:line 150
+   at Microsoft.Oryx.BuildScriptGenerator.DefaultPlatformsInformationProvider.GetPlatformsInfo(RepositoryContext context) in /__w/1/s/Oryx/src/BuildScriptGenerator/DefaultPlatformsInformationProvider.cs:line 65
+   at Microsoft.Oryx.BuildScriptGenerator.DefaultBuildScriptGenerator.GenerateBashScript(BuildScriptGeneratorContext context, String&amp; script, List`1 checkerMessageSink) in /__w/1/s/Oryx/src/BuildScriptGenerator/DefaultBuildScriptGenerator.cs:line 75
+   at Microsoft.Oryx.BuildScriptGeneratorCli.BuildScriptGenerator.TryGenerateScript(String&amp; generatedScript, Exception&amp; exception) in /__w/1/s/Oryx/src/BuildScriptGeneratorCli/BuildScriptGenerator.cs:line 63
+   at Microsoft.Oryx.BuildScriptGeneratorCli.BuildCommand.Execute(IServiceProvider serviceProvider, IConsole console) in /__w/1/s/Oryx/src/BuildScriptGeneratorCli/Commands/BuildCommand.cs:line 278
+   at Microsoft.Oryx.BuildScriptGeneratorCli.CommandBase.OnExecute(IConsole console) in /__w/1/s/Oryx/src/BuildScriptGeneratorCli/Commands/CommandBase.cs:line 87
+   at Microsoft.Oryx.BuildScriptGeneratorCli.BuildCommand.&lt;&gt;c__DisplayClass25_0.&lt;Export&gt;b__1(BuildCommandProperty prop) in /__w/1/s/Oryx/src/BuildScriptGeneratorCli/Commands/BuildCommand.cs:line 169
+   at System.CommandLine.Handler.&lt;&gt;c__DisplayClass13_0`1.&lt;SetHandler&gt;b__0(InvocationContext context)
+   at System.CommandLine.Invocation.AnonymousCommandHandler.InvokeAsync(InvocationContext context)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.Invocation.AnonymousCommandHandler.InvokeAsync(InvocationContext context)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_0.&lt;&lt;BuildInvocationChain&gt;b__0&gt;d.MoveNext()
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_0.&lt;BuildInvocationChain&gt;b__0(InvocationContext invocationContext, Func`2 _)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_2.&lt;BuildInvocationChain&gt;b__3(InvocationContext c)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c__DisplayClass17_0.&lt;&lt;UseParseErrorReporting&gt;b__0&gt;d.MoveNext()
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c__DisplayClass17_0.&lt;UseParseErrorReporting&gt;b__0(InvocationContext context, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_2.&lt;BuildInvocationChain&gt;b__3(InvocationContext c)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c__DisplayClass12_0.&lt;&lt;UseHelp&gt;b__0&gt;d.MoveNext()
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c__DisplayClass12_0.&lt;UseHelp&gt;b__0(InvocationContext context, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_2.&lt;BuildInvocationChain&gt;b__3(InvocationContext c)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c__DisplayClass22_0.&lt;&lt;UseVersionOption&gt;b__0&gt;d.MoveNext()
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c__DisplayClass22_0.&lt;UseVersionOption&gt;b__0(InvocationContext context, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_2.&lt;BuildInvocationChain&gt;b__3(InvocationContext c)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c__DisplayClass19_0.&lt;&lt;UseTypoCorrections&gt;b__0&gt;d.MoveNext()
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c__DisplayClass19_0.&lt;UseTypoCorrections&gt;b__0(InvocationContext context, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_2.&lt;BuildInvocationChain&gt;b__3(InvocationContext c)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c.&lt;&lt;UseSuggestDirective&gt;b__18_0&gt;d.MoveNext()
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c.&lt;UseSuggestDirective&gt;b__18_0(InvocationContext context, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_2.&lt;BuildInvocationChain&gt;b__3(InvocationContext c)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c__DisplayClass16_0.&lt;&lt;UseParseDirective&gt;b__0&gt;d.MoveNext()
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c__DisplayClass16_0.&lt;UseParseDirective&gt;b__0(InvocationContext context, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_2.&lt;BuildInvocationChain&gt;b__3(InvocationContext c)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c.&lt;&lt;RegisterWithDotnetSuggest&gt;b__5_0&gt;d.MoveNext()
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c.&lt;RegisterWithDotnetSuggest&gt;b__5_0(InvocationContext context, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_2.&lt;BuildInvocationChain&gt;b__3(InvocationContext c)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c.&lt;UseEnvironmentVariableDirective&gt;b__6_0(InvocationContext context, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_2.&lt;BuildInvocationChain&gt;b__3(InvocationContext c)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c__DisplayClass8_0.&lt;&lt;UseExceptionHandler&gt;b__0&gt;d.MoveNext()
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c__DisplayClass8_0.&lt;UseExceptionHandler&gt;b__0(InvocationContext context, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_2.&lt;BuildInvocationChain&gt;b__3(InvocationContext c)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c.&lt;&lt;CancelOnProcessTermination&gt;b__1_0&gt;d.MoveNext()
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c.&lt;CancelOnProcessTermination&gt;b__1_0(InvocationContext context, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_1.&lt;BuildInvocationChain&gt;b__2(InvocationContext ctx, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_1.&lt;BuildInvocationChain&gt;b__2(InvocationContext ctx, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_1.&lt;BuildInvocationChain&gt;b__2(InvocationContext ctx, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_1.&lt;BuildInvocationChain&gt;b__2(InvocationContext ctx, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_1.&lt;BuildInvocationChain&gt;b__2(InvocationContext ctx, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_1.&lt;BuildInvocationChain&gt;b__2(InvocationContext ctx, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_1.&lt;BuildInvocationChain&gt;b__2(InvocationContext ctx, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_1.&lt;BuildInvocationChain&gt;b__2(InvocationContext ctx, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_1.&lt;BuildInvocationChain&gt;b__2(InvocationContext ctx, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_1.&lt;BuildInvocationChain&gt;b__2(InvocationContext ctx, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;InvokeAsync&gt;g__FullInvocationChainAsync|2_0(InvocationContext context)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;InvokeAsync&gt;g__FullInvocationChainAsync|2_0(InvocationContext context)
+   at System.CommandLine.Invocation.InvocationPipeline.InvokeAsync(IConsole console)
+   at System.CommandLine.CommandExtensions.InvokeAsync(Command command, String[] args, IConsole console)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.CommandExtensions.InvokeAsync(Command command, String[] args, IConsole console)
+   at Microsoft.Oryx.BuildScriptGeneratorCli.Program.Main(String[] args) in /__w/1/s/Oryx/src/BuildScriptGeneratorCli/Program.cs:line 51
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at Microsoft.Oryx.BuildScriptGeneratorCli.Program.Main(String[] args)
+   at Microsoft.Oryx.BuildScriptGeneratorCli.Program.&lt;Main&gt;(String[] args)
+--- End of stack trace from previous location ---
+
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at Microsoft.Oryx.BuildScriptGenerator.ListBlobsHelper.GetAllBlobs(String sdkStorageBaseUrl, String platform, HttpClient httpClient) in /__w/1/s/Oryx/src/BuildScriptGenerator/Helpers/ListBlobsHelper.cs:line 21
+   at Microsoft.Oryx.BuildScriptGenerator.ListBlobsHelper.GetAllBlobs(String sdkStorageBaseUrl, String platform, HttpClient httpClient) in /__w/1/s/Oryx/src/BuildScriptGenerator/Helpers/ListBlobsHelper.cs:line 27
+   at Microsoft.Oryx.BuildScriptGenerator.SdkStorageVersionProviderBase.GetAvailableVersionsFromStorage(String platformName) in /__w/1/s/Oryx/src/BuildScriptGenerator/SdkStorageVersionProviderBase.cs:line 67
+   at Microsoft.Oryx.BuildScriptGenerator.Node.NodeSdkStorageVersionProvider.GetVersionInfo() in /__w/1/s/Oryx/src/BuildScriptGenerator/Node/VersionProviders/NodeSdkStorageVersionProvider.cs:line 29
+   at Microsoft.Oryx.BuildScriptGenerator.Node.NodeVersionProvider.GetVersionInfo() in /__w/1/s/Oryx/src/BuildScriptGenerator/Node/VersionProviders/NodeVersionProvider.cs:line 53
+   at Microsoft.Oryx.BuildScriptGenerator.Node.NodePlatform.GetMaxSatisfyingVersionAndVerify(String version) in /__w/1/s/Oryx/src/BuildScriptGenerator/Node/NodePlatform.cs:line 722
+   at Microsoft.Oryx.BuildScriptGenerator.Node.NodePlatform.ResolveVersions(RepositoryContext context, PlatformDetectorResult detectorResult) in /__w/1/s/Oryx/src/BuildScriptGenerator/Node/NodePlatform.cs:line 570
+   at Microsoft.Oryx.BuildScriptGenerator.Node.NodePlatform.Detect(RepositoryContext context) in /__w/1/s/Oryx/src/BuildScriptGenerator/Node/NodePlatform.cs:line 150
+   at Microsoft.Oryx.BuildScriptGenerator.DefaultPlatformsInformationProvider.GetPlatformsInfo(RepositoryContext context) in /__w/1/s/Oryx/src/BuildScriptGenerator/DefaultPlatformsInformationProvider.cs:line 65
+   at Microsoft.Oryx.BuildScriptGenerator.DefaultBuildScriptGenerator.GenerateBashScript(BuildScriptGeneratorContext context, String&amp; script, List`1 checkerMessageSink) in /__w/1/s/Oryx/src/BuildScriptGenerator/DefaultBuildScriptGenerator.cs:line 75
+   at Microsoft.Oryx.BuildScriptGeneratorCli.BuildScriptGenerator.TryGenerateScript(String&amp; generatedScript, Exception&amp; exception) in /__w/1/s/Oryx/src/BuildScriptGeneratorCli/BuildScriptGenerator.cs:line 63
+   at Microsoft.Oryx.BuildScriptGeneratorCli.BuildCommand.Execute(IServiceProvider serviceProvider, IConsole console) in /__w/1/s/Oryx/src/BuildScriptGeneratorCli/Commands/BuildCommand.cs:line 278
+   at Microsoft.Oryx.BuildScriptGeneratorCli.CommandBase.OnExecute(IConsole console) in /__w/1/s/Oryx/src/BuildScriptGeneratorCli/Commands/CommandBase.cs:line 87
+/bin/bash -c &quot;oryx build /tmp/zipdeploy/extracted -o /home/site/wwwroot --platform nodejs --platform-version 20 -p virtualenv_name= --log-file /tmp/build-debug.log  -i /tmp/8ddf37f74d9078f -p compress_node_modules=tar-gz | tee /tmp/oryx-build.log ; exit $PIPESTATUS &quot;" stackTrace="   at Kudu.Core.Infrastructure.Executable.ExecuteInternal(ITracer tracer, Func`2 onWriteOutput, Func`2 onWriteError, CancellationToken token, Encoding encoding, String arguments, Object[] args) in /tmp/KuduLite/Kudu.Core/Infrastructure/Executable.cs:line 239
+   at Kudu.Core.Infrastructure.Executable.ExecuteWithProgressWriter(ILogger logger, ITracer tracer, CancellationToken token, String arguments, Object[] args) in /tmp/KuduLite/Kudu.Core/Infrastructure/Executable.cs:line 118
+   at Kudu.Core.Deployment.Generator.ExternalCommandBuilder.RunCommand(DeploymentContext context, String command, Boolean ignoreManifest, CancellationToken token, String message) in /tmp/KuduLite/Kudu.Core/Deployment/Generator/ExternalCommandBuilder.cs:line 122
+   at Kudu.Core.Deployment.Generator.OryxBuilder.RunBuildCommand(IOryxArguments args, DeploymentContext context, CancellationToken token) in /tmp/KuduLite/Kudu.Core/Deployment/Generator/OryxBuilder.cs:line 282
+   at Kudu.Core.Deployment.Generator.OryxBuilder.Build(DeploymentContext context, CancellationToken token) in /tmp/KuduLite/Kudu.Core/Deployment/Generator/OryxBuilder.cs:line 123
+   at Kudu.Core.Deployment.DeploymentManager.Build(ChangeSet changeSet, ITracer tracer, IDisposable deployStep, IRepository repository, DeploymentInfoBase deploymentInfo, DeploymentAnalytics deploymentAnalytics, Boolean fullBuildByDefault, CancellationToken cancellationToken) in /tmp/KuduLite/Kudu.Core/Deployment/DeploymentManager.cs:line 771
+   at Kudu.Core.Deployment.DeploymentManager.Build(ChangeSet changeSet, ITracer tracer, IDisposable deployStep, IRepository repository, DeploymentInfoBase deploymentInfo, DeploymentAnalytics deploymentAnalytics, Boolean fullBuildByDefault, CancellationToken cancellationToken) in /tmp/KuduLite/Kudu.Core/Deployment/DeploymentManager.cs:line 840" /><!-- duration: 65ms -->
+          <step title="Cleaning up temp files" date="2025-09-14T11:12:46.912" /><!-- duration: 159ms -->
+          <step title="Cleaning up temp files" date="2025-09-14T11:12:47.111" /><!-- duration: 621ms -->
+          <step title="Error occurred" date="2025-09-14T11:12:47.870" type="error" text="Error: Oops... An unexpected error has occurred.
+Error: System.AggregateException: Http request to retrieve the SDKs available to download from &apos;https://oryxsdks-cdn.azureedge.net&apos; failed. Please ensure that your network configuration allows traffic to required Oryx dependencies, as documented in &apos;https://github.com/microsoft/Oryx/blob/main/doc/hosts/appservice.md#network-dependencies&apos;
+System.AggregateException: One or more errors occurred. (A task was canceled.)
+ ---&gt; System.Threading.Tasks.TaskCanceledException: A task was canceled.
+   at System.Threading.Tasks.Task.GetExceptions(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at Microsoft.Oryx.BuildScriptGenerator.ListBlobsHelper.GetAllBlobs(String sdkStorageBaseUrl, String platform, HttpClient httpClient) in /__w/1/s/Oryx/src/BuildScriptGenerator/Helpers/ListBlobsHelper.cs:line 21
+   at Microsoft.Oryx.BuildScriptGenerator.SdkStorageVersionProviderBase.GetAvailableVersionsFromStorage(String platformName) in /__w/1/s/Oryx/src/BuildScriptGenerator/SdkStorageVersionProviderBase.cs:line 59
+   at Microsoft.Oryx.BuildScriptGenerator.Node.NodeSdkStorageVersionProvider.GetVersionInfo() in /__w/1/s/Oryx/src/BuildScriptGenerator/Node/VersionProviders/NodeSdkStorageVersionProvider.cs:line 29
+   at Microsoft.Oryx.BuildScriptGenerator.Node.NodeVersionProvider.GetVersionInfo() in /__w/1/s/Oryx/src/BuildScriptGenerator/Node/VersionProviders/NodeVersionProvider.cs:line 53
+   at Microsoft.Oryx.BuildScriptGenerator.Node.NodePlatform.GetMaxSatisfyingVersionAndVerify(String version) in /__w/1/s/Oryx/src/BuildScriptGenerator/Node/NodePlatform.cs:line 722
+   at Microsoft.Oryx.BuildScriptGenerator.Node.NodePlatform.ResolveVersions(RepositoryContext context, PlatformDetectorResult detectorResult) in /__w/1/s/Oryx/src/BuildScriptGenerator/Node/NodePlatform.cs:line 570
+   at Microsoft.Oryx.BuildScriptGenerator.Node.NodePlatform.Detect(RepositoryContext context) in /__w/1/s/Oryx/src/BuildScriptGenerator/Node/NodePlatform.cs:line 150
+   at Microsoft.Oryx.BuildScriptGenerator.DefaultPlatformsInformationProvider.GetPlatformsInfo(RepositoryContext context) in /__w/1/s/Oryx/src/BuildScriptGenerator/DefaultPlatformsInformationProvider.cs:line 65
+   at Microsoft.Oryx.BuildScriptGenerator.DefaultBuildScriptGenerator.GenerateBashScript(BuildScriptGeneratorContext context, String&amp; script, List`1 checkerMessageSink) in /__w/1/s/Oryx/src/BuildScriptGenerator/DefaultBuildScriptGenerator.cs:line 75
+   at Microsoft.Oryx.BuildScriptGeneratorCli.BuildScriptGenerator.TryGenerateScript(String&amp; generatedScript, Exception&amp; exception) in /__w/1/s/Oryx/src/BuildScriptGeneratorCli/BuildScriptGenerator.cs:line 63
+   at Microsoft.Oryx.BuildScriptGeneratorCli.BuildCommand.Execute(IServiceProvider serviceProvider, IConsole console) in /__w/1/s/Oryx/src/BuildScriptGeneratorCli/Commands/BuildCommand.cs:line 278
+   at Microsoft.Oryx.BuildScriptGeneratorCli.CommandBase.OnExecute(IConsole console) in /__w/1/s/Oryx/src/BuildScriptGeneratorCli/Commands/CommandBase.cs:line 87
+   at Microsoft.Oryx.BuildScriptGeneratorCli.BuildCommand.&lt;&gt;c__DisplayClass25_0.&lt;Export&gt;b__1(BuildCommandProperty prop) in /__w/1/s/Oryx/src/BuildScriptGeneratorCli/Commands/BuildCommand.cs:line 169
+   at System.CommandLine.Handler.&lt;&gt;c__DisplayClass13_0`1.&lt;SetHandler&gt;b__0(InvocationContext context)
+   at System.CommandLine.Invocation.AnonymousCommandHandler.InvokeAsync(InvocationContext context)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.Invocation.AnonymousCommandHandler.InvokeAsync(InvocationContext context)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_0.&lt;&lt;BuildInvocationChain&gt;b__0&gt;d.MoveNext()
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_0.&lt;BuildInvocationChain&gt;b__0(InvocationContext invocationContext, Func`2 _)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_2.&lt;BuildInvocationChain&gt;b__3(InvocationContext c)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c__DisplayClass17_0.&lt;&lt;UseParseErrorReporting&gt;b__0&gt;d.MoveNext()
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c__DisplayClass17_0.&lt;UseParseErrorReporting&gt;b__0(InvocationContext context, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_2.&lt;BuildInvocationChain&gt;b__3(InvocationContext c)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c__DisplayClass12_0.&lt;&lt;UseHelp&gt;b__0&gt;d.MoveNext()
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c__DisplayClass12_0.&lt;UseHelp&gt;b__0(InvocationContext context, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_2.&lt;BuildInvocationChain&gt;b__3(InvocationContext c)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c__DisplayClass22_0.&lt;&lt;UseVersionOption&gt;b__0&gt;d.MoveNext()
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c__DisplayClass22_0.&lt;UseVersionOption&gt;b__0(InvocationContext context, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_2.&lt;BuildInvocationChain&gt;b__3(InvocationContext c)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c__DisplayClass19_0.&lt;&lt;UseTypoCorrections&gt;b__0&gt;d.MoveNext()
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c__DisplayClass19_0.&lt;UseTypoCorrections&gt;b__0(InvocationContext context, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_2.&lt;BuildInvocationChain&gt;b__3(InvocationContext c)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c.&lt;&lt;UseSuggestDirective&gt;b__18_0&gt;d.MoveNext()
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c.&lt;UseSuggestDirective&gt;b__18_0(InvocationContext context, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_2.&lt;BuildInvocationChain&gt;b__3(InvocationContext c)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c__DisplayClass16_0.&lt;&lt;UseParseDirective&gt;b__0&gt;d.MoveNext()
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c__DisplayClass16_0.&lt;UseParseDirective&gt;b__0(InvocationContext context, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_2.&lt;BuildInvocationChain&gt;b__3(InvocationContext c)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c.&lt;&lt;RegisterWithDotnetSuggest&gt;b__5_0&gt;d.MoveNext()
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c.&lt;RegisterWithDotnetSuggest&gt;b__5_0(InvocationContext context, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_2.&lt;BuildInvocationChain&gt;b__3(InvocationContext c)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c.&lt;UseEnvironmentVariableDirective&gt;b__6_0(InvocationContext context, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_2.&lt;BuildInvocationChain&gt;b__3(InvocationContext c)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c__DisplayClass8_0.&lt;&lt;UseExceptionHandler&gt;b__0&gt;d.MoveNext()
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c__DisplayClass8_0.&lt;UseExceptionHandler&gt;b__0(InvocationContext context, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_2.&lt;BuildInvocationChain&gt;b__3(InvocationContext c)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c.&lt;&lt;CancelOnProcessTermination&gt;b__1_0&gt;d.MoveNext()
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c.&lt;CancelOnProcessTermination&gt;b__1_0(InvocationContext context, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_1.&lt;BuildInvocationChain&gt;b__2(InvocationContext ctx, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_1.&lt;BuildInvocationChain&gt;b__2(InvocationContext ctx, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_1.&lt;BuildInvocationChain&gt;b__2(InvocationContext ctx, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_1.&lt;BuildInvocationChain&gt;b__2(InvocationContext ctx, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_1.&lt;BuildInvocationChain&gt;b__2(InvocationContext ctx, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_1.&lt;BuildInvocationChain&gt;b__2(InvocationContext ctx, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_1.&lt;BuildInvocationChain&gt;b__2(InvocationContext ctx, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_1.&lt;BuildInvocationChain&gt;b__2(InvocationContext ctx, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_1.&lt;BuildInvocationChain&gt;b__2(InvocationContext ctx, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_1.&lt;BuildInvocationChain&gt;b__2(InvocationContext ctx, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;InvokeAsync&gt;g__FullInvocationChainAsync|2_0(InvocationContext context)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;InvokeAsync&gt;g__FullInvocationChainAsync|2_0(InvocationContext context)
+   at System.CommandLine.Invocation.InvocationPipeline.InvokeAsync(IConsole console)
+   at System.CommandLine.CommandExtensions.InvokeAsync(Command command, String[] args, IConsole console)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.CommandExtensions.InvokeAsync(Command command, String[] args, IConsole console)
+   at Microsoft.Oryx.BuildScriptGeneratorCli.Program.Main(String[] args) in /__w/1/s/Oryx/src/BuildScriptGeneratorCli/Program.cs:line 51
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at Microsoft.Oryx.BuildScriptGeneratorCli.Program.Main(String[] args)
+   at Microsoft.Oryx.BuildScriptGeneratorCli.Program.&lt;Main&gt;(String[] args)
+--- End of stack trace from previous location ---
+
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at Microsoft.Oryx.BuildScriptGenerator.ListBlobsHelper.GetAllBlobs(String sdkStorageBaseUrl, String platform, HttpClient httpClient) in /__w/1/s/Oryx/src/BuildScriptGenerator/Helpers/ListBlobsHelper.cs:line 21
+   at Microsoft.Oryx.BuildScriptGenerator.ListBlobsHelper.GetAllBlobs(String sdkStorageBaseUrl, String platform, HttpClient httpClient) in /__w/1/s/Oryx/src/BuildScriptGenerator/Helpers/ListBlobsHelper.cs:line 27
+   at Microsoft.Oryx.BuildScriptGenerator.SdkStorageVersionProviderBase.GetAvailableVersionsFromStorage(String platformName) in /__w/1/s/Oryx/src/BuildScriptGenerator/SdkStorageVersionProviderBase.cs:line 67
+   at Microsoft.Oryx.BuildScriptGenerator.Node.NodeSdkStorageVersionProvider.GetVersionInfo() in /__w/1/s/Oryx/src/BuildScriptGenerator/Node/VersionProviders/NodeSdkStorageVersionProvider.cs:line 29
+   at Microsoft.Oryx.BuildScriptGenerator.Node.NodeVersionProvider.GetVersionInfo() in /__w/1/s/Oryx/src/BuildScriptGenerator/Node/VersionProviders/NodeVersionProvider.cs:line 53
+   at Microsoft.Oryx.BuildScriptGenerator.Node.NodePlatform.GetMaxSatisfyingVersionAndVerify(String version) in /__w/1/s/Oryx/src/BuildScriptGenerator/Node/NodePlatform.cs:line 722
+   at Microsoft.Oryx.BuildScriptGenerator.Node.NodePlatform.ResolveVersions(RepositoryContext context, PlatformDetectorResult detectorResult) in /__w/1/s/Oryx/src/BuildScriptGenerator/Node/NodePlatform.cs:line 570
+   at Microsoft.Oryx.BuildScriptGenerator.Node.NodePlatform.Detect(RepositoryContext context) in /__w/1/s/Oryx/src/BuildScriptGenerator/Node/NodePlatform.cs:line 150
+   at Microsoft.Oryx.BuildScriptGenerator.DefaultPlatformsInformationProvider.GetPlatformsInfo(RepositoryContext context) in /__w/1/s/Oryx/src/BuildScriptGenerator/DefaultPlatformsInformationProvider.cs:line 65
+   at Microsoft.Oryx.BuildScriptGenerator.DefaultBuildScriptGenerator.GenerateBashScript(BuildScriptGeneratorContext context, String&amp; script, List`1 checkerMessageSink) in /__w/1/s/Oryx/src/BuildScriptGenerator/DefaultBuildScriptGenerator.cs:line 75
+   at Microsoft.Oryx.BuildScriptGeneratorCli.BuildScriptGenerator.TryGenerateScript(String&amp; generatedScript, Exception&amp; exception) in /__w/1/s/Oryx/src/BuildScriptGeneratorCli/BuildScriptGenerator.cs:line 63
+   at Microsoft.Oryx.BuildScriptGeneratorCli.BuildCommand.Execute(IServiceProvider serviceProvider, IConsole console) in /__w/1/s/Oryx/src/BuildScriptGeneratorCli/Commands/BuildCommand.cs:line 278
+   at Microsoft.Oryx.BuildScriptGeneratorCli.CommandBase.OnExecute(IConsole console) in /__w/1/s/Oryx/src/BuildScriptGeneratorCli/Commands/CommandBase.cs:line 87
+/bin/bash -c &quot;oryx build /tmp/zipdeploy/extracted -o /home/site/wwwroot --platform nodejs --platform-version 20 -p virtualenv_name= --log-file /tmp/build-debug.log  -i /tmp/8ddf37f74d9078f -p compress_node_modules=tar-gz | tee /tmp/oryx-build.log ; exit $PIPESTATUS &quot;" stackTrace="   at Kudu.Core.Infrastructure.Executable.ExecuteInternal(ITracer tracer, Func`2 onWriteOutput, Func`2 onWriteError, CancellationToken token, Encoding encoding, String arguments, Object[] args) in /tmp/KuduLite/Kudu.Core/Infrastructure/Executable.cs:line 239
+   at Kudu.Core.Infrastructure.Executable.ExecuteWithProgressWriter(ILogger logger, ITracer tracer, CancellationToken token, String arguments, Object[] args) in /tmp/KuduLite/Kudu.Core/Infrastructure/Executable.cs:line 118
+   at Kudu.Core.Deployment.Generator.ExternalCommandBuilder.RunCommand(DeploymentContext context, String command, Boolean ignoreManifest, CancellationToken token, String message) in /tmp/KuduLite/Kudu.Core/Deployment/Generator/ExternalCommandBuilder.cs:line 122
+   at Kudu.Core.Deployment.Generator.OryxBuilder.RunBuildCommand(IOryxArguments args, DeploymentContext context, CancellationToken token) in /tmp/KuduLite/Kudu.Core/Deployment/Generator/OryxBuilder.cs:line 282
+   at Kudu.Core.Deployment.Generator.OryxBuilder.Build(DeploymentContext context, CancellationToken token) in /tmp/KuduLite/Kudu.Core/Deployment/Generator/OryxBuilder.cs:line 123
+   at Kudu.Core.Deployment.DeploymentManager.Build(ChangeSet changeSet, ITracer tracer, IDisposable deployStep, IRepository repository, DeploymentInfoBase deploymentInfo, DeploymentAnalytics deploymentAnalytics, Boolean fullBuildByDefault, CancellationToken cancellationToken) in /tmp/KuduLite/Kudu.Core/Deployment/DeploymentManager.cs:line 771
+   at Kudu.Core.Deployment.DeploymentManager.Build(ChangeSet changeSet, ITracer tracer, IDisposable deployStep, IRepository repository, DeploymentInfoBase deploymentInfo, DeploymentAnalytics deploymentAnalytics, Boolean fullBuildByDefault, CancellationToken cancellationToken) in /tmp/KuduLite/Kudu.Core/Deployment/DeploymentManager.cs:line 840
+   at Kudu.Core.Deployment.DeploymentManager.DeployAsync(IRepository repository, ChangeSet changeSet, String deployer, Boolean clean, DeploymentInfoBase deploymentInfo, Boolean needFileUpdate, Boolean fullBuildByDefault) in /tmp/KuduLite/Kudu.Core/Deployment/DeploymentManager.cs:line 266" /><!-- duration: 61ms -->
+        </step><!-- duration: 77565ms -->
+        <step title="Reloading status file with latest updates" date="2025-09-14T11:12:48.326" >
+          <step title="WebHooksManager.PublishEventAsync: PostDeployment" date="2025-09-14T11:12:48.338" /><!-- duration: 503ms -->
+        </step><!-- duration: 592ms -->
+        <step title="Error occurred" date="2025-09-14T11:12:48.957" type="error" text="Error: Oops... An unexpected error has occurred.
+Error: System.AggregateException: Http request to retrieve the SDKs available to download from &apos;https://oryxsdks-cdn.azureedge.net&apos; failed. Please ensure that your network configuration allows traffic to required Oryx dependencies, as documented in &apos;https://github.com/microsoft/Oryx/blob/main/doc/hosts/appservice.md#network-dependencies&apos;
+System.AggregateException: One or more errors occurred. (A task was canceled.)
+ ---&gt; System.Threading.Tasks.TaskCanceledException: A task was canceled.
+   at System.Threading.Tasks.Task.GetExceptions(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at Microsoft.Oryx.BuildScriptGenerator.ListBlobsHelper.GetAllBlobs(String sdkStorageBaseUrl, String platform, HttpClient httpClient) in /__w/1/s/Oryx/src/BuildScriptGenerator/Helpers/ListBlobsHelper.cs:line 21
+   at Microsoft.Oryx.BuildScriptGenerator.SdkStorageVersionProviderBase.GetAvailableVersionsFromStorage(String platformName) in /__w/1/s/Oryx/src/BuildScriptGenerator/SdkStorageVersionProviderBase.cs:line 59
+   at Microsoft.Oryx.BuildScriptGenerator.Node.NodeSdkStorageVersionProvider.GetVersionInfo() in /__w/1/s/Oryx/src/BuildScriptGenerator/Node/VersionProviders/NodeSdkStorageVersionProvider.cs:line 29
+   at Microsoft.Oryx.BuildScriptGenerator.Node.NodeVersionProvider.GetVersionInfo() in /__w/1/s/Oryx/src/BuildScriptGenerator/Node/VersionProviders/NodeVersionProvider.cs:line 53
+   at Microsoft.Oryx.BuildScriptGenerator.Node.NodePlatform.GetMaxSatisfyingVersionAndVerify(String version) in /__w/1/s/Oryx/src/BuildScriptGenerator/Node/NodePlatform.cs:line 722
+   at Microsoft.Oryx.BuildScriptGenerator.Node.NodePlatform.ResolveVersions(RepositoryContext context, PlatformDetectorResult detectorResult) in /__w/1/s/Oryx/src/BuildScriptGenerator/Node/NodePlatform.cs:line 570
+   at Microsoft.Oryx.BuildScriptGenerator.Node.NodePlatform.Detect(RepositoryContext context) in /__w/1/s/Oryx/src/BuildScriptGenerator/Node/NodePlatform.cs:line 150
+   at Microsoft.Oryx.BuildScriptGenerator.DefaultPlatformsInformationProvider.GetPlatformsInfo(RepositoryContext context) in /__w/1/s/Oryx/src/BuildScriptGenerator/DefaultPlatformsInformationProvider.cs:line 65
+   at Microsoft.Oryx.BuildScriptGenerator.DefaultBuildScriptGenerator.GenerateBashScript(BuildScriptGeneratorContext context, String&amp; script, List`1 checkerMessageSink) in /__w/1/s/Oryx/src/BuildScriptGenerator/DefaultBuildScriptGenerator.cs:line 75
+   at Microsoft.Oryx.BuildScriptGeneratorCli.BuildScriptGenerator.TryGenerateScript(String&amp; generatedScript, Exception&amp; exception) in /__w/1/s/Oryx/src/BuildScriptGeneratorCli/BuildScriptGenerator.cs:line 63
+   at Microsoft.Oryx.BuildScriptGeneratorCli.BuildCommand.Execute(IServiceProvider serviceProvider, IConsole console) in /__w/1/s/Oryx/src/BuildScriptGeneratorCli/Commands/BuildCommand.cs:line 278
+   at Microsoft.Oryx.BuildScriptGeneratorCli.CommandBase.OnExecute(IConsole console) in /__w/1/s/Oryx/src/BuildScriptGeneratorCli/Commands/CommandBase.cs:line 87
+   at Microsoft.Oryx.BuildScriptGeneratorCli.BuildCommand.&lt;&gt;c__DisplayClass25_0.&lt;Export&gt;b__1(BuildCommandProperty prop) in /__w/1/s/Oryx/src/BuildScriptGeneratorCli/Commands/BuildCommand.cs:line 169
+   at System.CommandLine.Handler.&lt;&gt;c__DisplayClass13_0`1.&lt;SetHandler&gt;b__0(InvocationContext context)
+   at System.CommandLine.Invocation.AnonymousCommandHandler.InvokeAsync(InvocationContext context)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.Invocation.AnonymousCommandHandler.InvokeAsync(InvocationContext context)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_0.&lt;&lt;BuildInvocationChain&gt;b__0&gt;d.MoveNext()
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_0.&lt;BuildInvocationChain&gt;b__0(InvocationContext invocationContext, Func`2 _)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_2.&lt;BuildInvocationChain&gt;b__3(InvocationContext c)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c__DisplayClass17_0.&lt;&lt;UseParseErrorReporting&gt;b__0&gt;d.MoveNext()
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c__DisplayClass17_0.&lt;UseParseErrorReporting&gt;b__0(InvocationContext context, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_2.&lt;BuildInvocationChain&gt;b__3(InvocationContext c)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c__DisplayClass12_0.&lt;&lt;UseHelp&gt;b__0&gt;d.MoveNext()
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c__DisplayClass12_0.&lt;UseHelp&gt;b__0(InvocationContext context, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_2.&lt;BuildInvocationChain&gt;b__3(InvocationContext c)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c__DisplayClass22_0.&lt;&lt;UseVersionOption&gt;b__0&gt;d.MoveNext()
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c__DisplayClass22_0.&lt;UseVersionOption&gt;b__0(InvocationContext context, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_2.&lt;BuildInvocationChain&gt;b__3(InvocationContext c)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c__DisplayClass19_0.&lt;&lt;UseTypoCorrections&gt;b__0&gt;d.MoveNext()
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c__DisplayClass19_0.&lt;UseTypoCorrections&gt;b__0(InvocationContext context, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_2.&lt;BuildInvocationChain&gt;b__3(InvocationContext c)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c.&lt;&lt;UseSuggestDirective&gt;b__18_0&gt;d.MoveNext()
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c.&lt;UseSuggestDirective&gt;b__18_0(InvocationContext context, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_2.&lt;BuildInvocationChain&gt;b__3(InvocationContext c)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c__DisplayClass16_0.&lt;&lt;UseParseDirective&gt;b__0&gt;d.MoveNext()
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c__DisplayClass16_0.&lt;UseParseDirective&gt;b__0(InvocationContext context, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_2.&lt;BuildInvocationChain&gt;b__3(InvocationContext c)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c.&lt;&lt;RegisterWithDotnetSuggest&gt;b__5_0&gt;d.MoveNext()
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c.&lt;RegisterWithDotnetSuggest&gt;b__5_0(InvocationContext context, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_2.&lt;BuildInvocationChain&gt;b__3(InvocationContext c)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c.&lt;UseEnvironmentVariableDirective&gt;b__6_0(InvocationContext context, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_2.&lt;BuildInvocationChain&gt;b__3(InvocationContext c)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c__DisplayClass8_0.&lt;&lt;UseExceptionHandler&gt;b__0&gt;d.MoveNext()
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c__DisplayClass8_0.&lt;UseExceptionHandler&gt;b__0(InvocationContext context, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_2.&lt;BuildInvocationChain&gt;b__3(InvocationContext c)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c.&lt;&lt;CancelOnProcessTermination&gt;b__1_0&gt;d.MoveNext()
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.Builder.CommandLineBuilderExtensions.&lt;&gt;c.&lt;CancelOnProcessTermination&gt;b__1_0(InvocationContext context, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_1.&lt;BuildInvocationChain&gt;b__2(InvocationContext ctx, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_1.&lt;BuildInvocationChain&gt;b__2(InvocationContext ctx, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_1.&lt;BuildInvocationChain&gt;b__2(InvocationContext ctx, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_1.&lt;BuildInvocationChain&gt;b__2(InvocationContext ctx, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_1.&lt;BuildInvocationChain&gt;b__2(InvocationContext ctx, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_1.&lt;BuildInvocationChain&gt;b__2(InvocationContext ctx, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_1.&lt;BuildInvocationChain&gt;b__2(InvocationContext ctx, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_1.&lt;BuildInvocationChain&gt;b__2(InvocationContext ctx, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_1.&lt;BuildInvocationChain&gt;b__2(InvocationContext ctx, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;&gt;c__DisplayClass4_1.&lt;BuildInvocationChain&gt;b__2(InvocationContext ctx, Func`2 next)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;InvokeAsync&gt;g__FullInvocationChainAsync|2_0(InvocationContext context)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.Invocation.InvocationPipeline.&lt;InvokeAsync&gt;g__FullInvocationChainAsync|2_0(InvocationContext context)
+   at System.CommandLine.Invocation.InvocationPipeline.InvokeAsync(IConsole console)
+   at System.CommandLine.CommandExtensions.InvokeAsync(Command command, String[] args, IConsole console)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at System.CommandLine.CommandExtensions.InvokeAsync(Command command, String[] args, IConsole console)
+   at Microsoft.Oryx.BuildScriptGeneratorCli.Program.Main(String[] args) in /__w/1/s/Oryx/src/BuildScriptGeneratorCli/Program.cs:line 51
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)
+   at Microsoft.Oryx.BuildScriptGeneratorCli.Program.Main(String[] args)
+   at Microsoft.Oryx.BuildScriptGeneratorCli.Program.&lt;Main&gt;(String[] args)
+--- End of stack trace from previous location ---
+
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at Microsoft.Oryx.BuildScriptGenerator.ListBlobsHelper.GetAllBlobs(String sdkStorageBaseUrl, String platform, HttpClient httpClient) in /__w/1/s/Oryx/src/BuildScriptGenerator/Helpers/ListBlobsHelper.cs:line 21
+   at Microsoft.Oryx.BuildScriptGenerator.ListBlobsHelper.GetAllBlobs(String sdkStorageBaseUrl, String platform, HttpClient httpClient) in /__w/1/s/Oryx/src/BuildScriptGenerator/Helpers/ListBlobsHelper.cs:line 27
+   at Microsoft.Oryx.BuildScriptGenerator.SdkStorageVersionProviderBase.GetAvailableVersionsFromStorage(String platformName) in /__w/1/s/Oryx/src/BuildScriptGenerator/SdkStorageVersionProviderBase.cs:line 67
+   at Microsoft.Oryx.BuildScriptGenerator.Node.NodeSdkStorageVersionProvider.GetVersionInfo() in /__w/1/s/Oryx/src/BuildScriptGenerator/Node/VersionProviders/NodeSdkStorageVersionProvider.cs:line 29
+   at Microsoft.Oryx.BuildScriptGenerator.Node.NodeVersionProvider.GetVersionInfo() in /__w/1/s/Oryx/src/BuildScriptGenerator/Node/VersionProviders/NodeVersionProvider.cs:line 53
+   at Microsoft.Oryx.BuildScriptGenerator.Node.NodePlatform.GetMaxSatisfyingVersionAndVerify(String version) in /__w/1/s/Oryx/src/BuildScriptGenerator/Node/NodePlatform.cs:line 722
+   at Microsoft.Oryx.BuildScriptGenerator.Node.NodePlatform.ResolveVersions(RepositoryContext context, PlatformDetectorResult detectorResult) in /__w/1/s/Oryx/src/BuildScriptGenerator/Node/NodePlatform.cs:line 570
+   at Microsoft.Oryx.BuildScriptGenerator.Node.NodePlatform.Detect(RepositoryContext context) in /__w/1/s/Oryx/src/BuildScriptGenerator/Node/NodePlatform.cs:line 150
+   at Microsoft.Oryx.BuildScriptGenerator.DefaultPlatformsInformationProvider.GetPlatformsInfo(RepositoryContext context) in /__w/1/s/Oryx/src/BuildScriptGenerator/DefaultPlatformsInformationProvider.cs:line 65
+   at Microsoft.Oryx.BuildScriptGenerator.DefaultBuildScriptGenerator.GenerateBashScript(BuildScriptGeneratorContext context, String&amp; script, List`1 checkerMessageSink) in /__w/1/s/Oryx/src/BuildScriptGenerator/DefaultBuildScriptGenerator.cs:line 75
+   at Microsoft.Oryx.BuildScriptGeneratorCli.BuildScriptGenerator.TryGenerateScript(String&amp; generatedScript, Exception&amp; exception) in /__w/1/s/Oryx/src/BuildScriptGeneratorCli/BuildScriptGenerator.cs:line 63
+   at Microsoft.Oryx.BuildScriptGeneratorCli.BuildCommand.Execute(IServiceProvider serviceProvider, IConsole console) in /__w/1/s/Oryx/src/BuildScriptGeneratorCli/Commands/BuildCommand.cs:line 278
+   at Microsoft.Oryx.BuildScriptGeneratorCli.CommandBase.OnExecute(IConsole console) in /__w/1/s/Oryx/src/BuildScriptGeneratorCli/Commands/CommandBase.cs:line 87
+/bin/bash -c &quot;oryx build /tmp/zipdeploy/extracted -o /home/site/wwwroot --platform nodejs --platform-version 20 -p virtualenv_name= --log-file /tmp/build-debug.log  -i /tmp/8ddf37f74d9078f -p compress_node_modules=tar-gz | tee /tmp/oryx-build.log ; exit $PIPESTATUS &quot;" stackTrace="   at Kudu.Core.Infrastructure.Executable.ExecuteInternal(ITracer tracer, Func`2 onWriteOutput, Func`2 onWriteError, CancellationToken token, Encoding encoding, String arguments, Object[] args) in /tmp/KuduLite/Kudu.Core/Infrastructure/Executable.cs:line 239
+   at Kudu.Core.Infrastructure.Executable.ExecuteWithProgressWriter(ILogger logger, ITracer tracer, CancellationToken token, String arguments, Object[] args) in /tmp/KuduLite/Kudu.Core/Infrastructure/Executable.cs:line 118
+   at Kudu.Core.Deployment.Generator.ExternalCommandBuilder.RunCommand(DeploymentContext context, String command, Boolean ignoreManifest, CancellationToken token, String message) in /tmp/KuduLite/Kudu.Core/Deployment/Generator/ExternalCommandBuilder.cs:line 122
+   at Kudu.Core.Deployment.Generator.OryxBuilder.RunBuildCommand(IOryxArguments args, DeploymentContext context, CancellationToken token) in /tmp/KuduLite/Kudu.Core/Deployment/Generator/OryxBuilder.cs:line 282
+   at Kudu.Core.Deployment.Generator.OryxBuilder.Build(DeploymentContext context, CancellationToken token) in /tmp/KuduLite/Kudu.Core/Deployment/Generator/OryxBuilder.cs:line 123
+   at Kudu.Core.Deployment.DeploymentManager.Build(ChangeSet changeSet, ITracer tracer, IDisposable deployStep, IRepository repository, DeploymentInfoBase deploymentInfo, DeploymentAnalytics deploymentAnalytics, Boolean fullBuildByDefault, CancellationToken cancellationToken) in /tmp/KuduLite/Kudu.Core/Deployment/DeploymentManager.cs:line 771
+   at Kudu.Core.Deployment.DeploymentManager.Build(ChangeSet changeSet, ITracer tracer, IDisposable deployStep, IRepository repository, DeploymentInfoBase deploymentInfo, DeploymentAnalytics deploymentAnalytics, Boolean fullBuildByDefault, CancellationToken cancellationToken) in /tmp/KuduLite/Kudu.Core/Deployment/DeploymentManager.cs:line 840
+   at Kudu.Core.Deployment.DeploymentManager.DeployAsync(IRepository repository, ChangeSet changeSet, String deployer, Boolean clean, DeploymentInfoBase deploymentInfo, Boolean needFileUpdate, Boolean fullBuildByDefault) in /tmp/KuduLite/Kudu.Core/Deployment/DeploymentManager.cs:line 266" /><!-- duration: 68ms -->
+        <step title="Marking deployment as failed and cleaning up the temp deployment" date="2025-09-14T11:12:49.342" /><!-- duration: 47ms -->
+      </step><!-- duration: 81928ms -->
+      <step title="Error occurred" date="2025-09-14T11:12:49.863" type="error" text="One or more errors occurred. (Deployment failed)" stackTrace="   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at System.Threading.Tasks.Task.Wait()
+   at Kudu.Core.Deployment.FetchDeploymentManager.&lt;&gt;c__DisplayClass22_1.&lt;PerformBackgroundDeployment&gt;b__3() in /tmp/KuduLite/Kudu.Core/Deployment/FetchDeploymentManager.cs:line 414
+   at Kudu.Contracts.Infrastructure.LockExtensions.TryLockOperation(IOperationLock lockObj, Action operation, String operationName, TimeSpan timeout) in /tmp/KuduLite/Kudu.Contracts/Infrastructure/LockExtensions.cs:line 34
+   at Kudu.Contracts.Infrastructure.LockExtensions.LockOperation(IOperationLock lockObj, Action operation, String operationName, TimeSpan timeout) in /tmp/KuduLite/Kudu.Contracts/Infrastructure/LockExtensions.cs:line 46
+   at Kudu.Core.Deployment.FetchDeploymentManager.&lt;&gt;c__DisplayClass22_0.&lt;PerformBackgroundDeployment&gt;b__1() in /tmp/KuduLite/Kudu.Core/Deployment/FetchDeploymentManager.cs:line 393" innerText="Deployment failed" innerStackTrace="   at Kudu.Core.Deployment.DeploymentManager.DeployAsync(IRepository repository, ChangeSet changeSet, String deployer, Boolean clean, DeploymentInfoBase deploymentInfo, Boolean needFileUpdate, Boolean fullBuildByDefault) in /tmp/KuduLite/Kudu.Core/Deployment/DeploymentManager.cs:line 307
+   at Kudu.Core.Deployment.FetchDeploymentManager.PerformDeployment(DeploymentInfoBase deploymentInfo, IDisposable tempDeployment, ChangeSet tempChangeSet, DeployStatusApiResult updateStatusObj) in /tmp/KuduLite/Kudu.Core/Deployment/FetchDeploymentManager.cs:line 230" /><!-- duration: 43ms -->
+    </step><!-- duration: 82247ms -->

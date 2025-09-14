@@ -1,0 +1,20 @@
+<step title="Incoming Request" date="2025-09-12T03:38:23.151" instance="619d5c" url="/api/zipdeploy?isAsync=true" method="POST" type="request" pid="825,1,84" Accept="*/*" Host="genvolt-webapp-backend-epezdjc9hfcyf4hr.scm.centralindia-01.azurewebsites.net" User-Agent="AZURECLI/2.75.0 (MSI)" Accept-Encoding="gzip, deflate" Authorization="Bea..." Cache-Control="no-cache" Content-Type="application/octet-stream" Cookie="ARRAffinity=619d5cd37d5df35ce07c198c9a607841d32e50136529316925bc0449d5dc307e; ARRAffinitySameSite=619d5cd37d5df35ce07c198c9a607841d32e50136529316925bc0449d5dc307e" Content-Length="16724270" x-ms-client-request-id="e8710f7b-8f89-11f0-9ef4-088e90a7050c" x-ms-artifact-checksum="da0f0d06e81ba95ddca2480ebc363446bb410a9df5fdaffc030f6ea32f74e096" X-ARR-LOG-ID="e8710f7b-8f89-11f0-9ef4-088e90a7050c" CLIENT-IP="49.36.59.182:57009" X-SITE-DEPLOYMENT-ID="genvolt-webapp-backend" WAS-DEFAULT-HOSTNAME="genvolt-webapp-backend-epezdjc9hfcyf4hr.scm.centralindia-01.azurewebsites.net" X-Forwarded-Proto="https" X-AppService-Proto="https" X-Forwarded-TlsVersion="1.3" X-WAWS-Unencoded-URL="/api/zipdeploy?isAsync=true" X-Client-IP="49.36.59.182" X-Client-Port="57009" >
+  <step title="Cleanup Xml Logs" date="2025-09-12T03:38:23.156" >
+    <step title="Cleanup Infos" date="2025-09-12T03:38:23.223" totalFiles="275" totalCleanup="115" /><!-- duration: 8ms -->
+  </step><!-- duration: 79ms -->
+  <step title="ZipPushDeploy" date="2025-09-12T03:38:23.839" >
+    <step title="ZipDeploy. Extract zip." date="2025-09-12T03:38:23.964" /><!-- duration: 3ms -->
+    <step title="Starting PushDeployAsync" date="2025-09-12T03:38:23.982" /><!-- duration: 5ms -->
+    <step title="Removing node_modules symlink" date="2025-09-12T03:38:24.013" >
+      <step title="Removing _del_node_modules symlink" date="2025-09-12T03:38:26.151" >
+        <step title="Writing artifact to /tmp/zipdeploy/5809c06a-5d30-4150-aac8-c505f0261fc8.zip" date="2025-09-12T03:38:26.496" >
+          <step title="Writing multipart request body to /tmp/zipdeploy/5809c06a-5d30-4150-aac8-c505f0261fc8.zip" date="2025-09-12T03:38:26.556" /><!-- duration: 51ms -->
+        </step><!-- duration: 2749ms -->
+        <step title="Removing previous build artifact&apos;s manifest file" date="2025-09-12T03:38:29.271" >
+          <step title="Start deployment in the background" date="2025-09-12T03:38:29.340" >
+            <step title="Acquiring Deployment Lock" date="2025-09-12T03:38:29.433" /><!-- duration: 5ms -->
+            <step title="Acquired Deployment Lock" date="2025-09-12T03:38:29.479" /><!-- duration: 5ms -->
+          </step><!-- duration: 333ms -->
+        </step><!-- duration: 422ms -->
+        <step title="Outgoing response" date="2025-09-12T03:38:29.702" type="response" statusCode="202" statusText="Accepted" /><!-- duration: 4ms -->
+      </step><!-- duration: 3560ms -->

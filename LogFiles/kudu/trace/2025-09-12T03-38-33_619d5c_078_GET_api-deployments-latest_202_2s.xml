@@ -1,0 +1,11 @@
+<step title="Incoming Request" date="2025-09-12T03:38:33.459" instance="619d5c" url="/api/deployments/latest" method="GET" type="request" pid="825,1,81" Accept="*/*" Host="genvolt-webapp-backend-epezdjc9hfcyf4hr.scm.centralindia-01.azurewebsites.net" User-Agent="AZURECLI/2.75.0 (MSI)" Accept-Encoding="gzip, deflate" Authorization="Bea..." x-ms-client-request-id="e8710f7b-8f89-11f0-9ef4-088e90a7050c" X-ARR-LOG-ID="e8710f7b-8f89-11f0-9ef4-088e90a7050c" CLIENT-IP="49.36.59.182:57938" X-SITE-DEPLOYMENT-ID="genvolt-webapp-backend" WAS-DEFAULT-HOSTNAME="genvolt-webapp-backend-epezdjc9hfcyf4hr.scm.centralindia-01.azurewebsites.net" X-Forwarded-Proto="https" X-AppService-Proto="https" X-Forwarded-TlsVersion="1.3" X-WAWS-Unencoded-URL="/api/deployments/latest" X-Client-IP="49.36.59.182" X-Client-Port="57938" >
+  <step title="Cleanup Xml Logs" date="2025-09-12T03:38:33.465" >
+    <step title="Cleanup Infos" date="2025-09-12T03:38:33.493" totalFiles="277" totalCleanup="117" /><!-- duration: 12ms -->
+  </step><!-- duration: 49ms -->
+  <step title="DeploymentService.GetResult" date="2025-09-12T03:38:33.571" >
+    <step title="DeploymentService.GetLatestDeployment" date="2025-09-12T03:38:33.577" >
+      <step title="DeploymentManager.GetResults" date="2025-09-12T03:38:33.585" /><!-- duration: 1288ms -->
+    </step><!-- duration: 1333ms -->
+  </step><!-- duration: 1351ms -->
+  <step title="Outgoing response" date="2025-09-12T03:38:34.946" type="response" statusCode="202" statusText="Accepted" /><!-- duration: 4ms -->
+</step><!-- duration: 1507ms -->

@@ -1,0 +1,21 @@
+<step title="BackgroundTrace" date="2025-09-12T03:38:29.354" instance="619d5c" url="/api/zipdeploy" method="POST" >
+  <step title="Cleanup Xml Logs" date="2025-09-12T03:38:29.370" >
+    <step title="Cleanup Infos" date="2025-09-12T03:38:29.392" totalFiles="276" totalCleanup="116" /><!-- duration: 17ms -->
+  </step><!-- duration: 44ms -->
+  <step title="Creating temporary deployment - FetchDeploymentManager" date="2025-09-12T03:38:29.489" /><!-- duration: 3ms -->
+  <step title="Creating temporary deployment" date="2025-09-12T03:38:29.508" /><!-- duration: 160ms -->
+  <step title="Performing fetch based deployment" date="2025-09-12T03:38:29.733" >
+    <step title="Cleaning up temp folders from previous zip deployments and extracting pushed zip file /tmp/zipdeploy/5809c06a-5d30-4150-aac8-c505f0261fc8.zip (15.95 MB) to /tmp/zipdeploy/extracted" date="2025-09-12T03:38:31.101" >
+      <step title="ChmodRecursive Process exited with total time taken in ms: 734" date="2025-09-12T03:38:59.706" /><!-- duration: 19ms -->
+    </step><!-- duration: 28634ms -->
+    <step title="Deployment timer started" date="2025-09-12T03:39:02.233" >
+      <step title="DeploymentManager.Deploy(id:97dce668-bfb2-4672-97c6-65921fcece0e)" date="2025-09-12T03:39:02.261" >
+        <step title="Collecting changeset information" date="2025-09-12T03:39:02.292" /><!-- duration: 691ms -->
+        <step title="Updating submodules" date="2025-09-12T03:39:02.996" /><!-- duration: 1221ms -->
+        <step title="Determining deployment builder" date="2025-09-12T03:39:04.473" >
+          <step title="Builder is BasicBuilder" date="2025-09-12T03:39:04.501" /><!-- duration: 11ms -->
+        </step><!-- duration: 44ms -->
+        <step title="PreDeployment: context.CleanOutputPath False" date="2025-09-12T03:39:04.604" >
+          <step title="PreDeployment: context.OutputPath /home/site/wwwroot" date="2025-09-12T03:39:04.754" >
+            <step title="Building" date="2025-09-12T03:39:04.937" >
+              <step title="Executing external process" date="2025-09-12T03:39:05.468" type="process" path="starter.sh" arguments="/opt/Kudu/Scripts/parallel_rsync.sh /tmp/zipdeploy/extracted /home/site/wwwroot 8 /tmp/ False True  " 

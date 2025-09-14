@@ -1,0 +1,1 @@
+2025-08-05T11:06:54  Startup Request, url: /favicon.ico, method: GET, type: request, pid: 823,1,7, ScmType: GitHubAction

@@ -1,0 +1,10 @@
+<step title="BackgroundTrace" date="2025-09-14T10:15:28.286" instance="b6e968" url="/deploy" method="POST" >
+  <step title="Cleanup Xml Logs" date="2025-09-14T10:15:28.327" >
+    <step title="Cleanup Infos" date="2025-09-14T10:15:28.499" totalFiles="403" totalCleanup="243" /><!-- duration: 69ms -->
+  </step><!-- duration: 244ms -->
+  <step title="Creating temporary deployment - FetchDeploymentManager" date="2025-09-14T10:15:33.083" /><!-- duration: 140ms -->
+  <step title="Creating temporary deployment" date="2025-09-14T10:15:33.317" /><!-- duration: 5479ms -->
+  <step title="Performing fetch based deployment" date="2025-09-14T10:15:39.295" >
+    <step title="Cleaning up temporary deployment - fetch deployment was successful" date="2025-09-14T10:15:44.427" /><!-- duration: 20ms -->
+  </step><!-- duration: 7098ms -->
+</step><!-- duration: 18852ms -->

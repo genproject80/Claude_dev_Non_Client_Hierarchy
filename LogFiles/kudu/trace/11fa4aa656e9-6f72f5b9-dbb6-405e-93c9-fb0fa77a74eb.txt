@@ -1,0 +1,1 @@
+2025-09-14T10:32:12  Startup Request, url: /api/scm/info, method: GET, type: request, pid: 828,1,16, SCM_DEPLOYMENT_PATH: /backend, ScmType: GitHubAction, SCM_DO_BUILD_DURING_DEPLOYMENT: true

@@ -1,0 +1,9 @@
+<step title="Incoming Request" date="2025-08-04T10:40:56.807" instance="978fb3" url="/api/deployments/latest?deployer=OneDeploy&amp;time=2025-08-04_10-40-40Z" method="GET" type="request" pid="833,1,34" Host="genvolt-webapp-backend-epezdjc9hfcyf4hr.scm.centralindia-01.azurewebsites.net" User-Agent="GITHUBACTIONS_DeployWebAppToAzure_4618b544b8af35a3265a55f8f8620018afeb6232bc516babd865685c8f30296c" Authorization="Bea..." Content-Type="application/json; charset=utf-8" Cookie="ARRAffinity=978fb30defe23f4282e3844fadc37c1e586c4d9e6b9a763833b259a1f59d1bb9;Path=/;HttpOnly;Secure;Domain=genvolt-webapp-backend-epezdjc9hfcyf4hr.scm.centralindia-01.azurewebsites.net; ARRAffinitySameSite=978fb30defe23f4282e3844fadc37c1e586c4d9e6b9a763833b259a1f59d1bb9;Path=/;HttpOnly;SameSite=None;Secure;Domain=genvolt-webapp-backend-epezdjc9hfcyf4hr.scm.centralindia-01.azurewebsites.net" Content-Length="0" X-ARR-LOG-ID="67830c6d-1151-4627-b58d-c5f9d462bf6c" CLIENT-IP="52.159.244.65:57353" X-SITE-DEPLOYMENT-ID="genvolt-webapp-backend" WAS-DEFAULT-HOSTNAME="genvolt-webapp-backend-epezdjc9hfcyf4hr.scm.centralindia-01.azurewebsites.net" X-Forwarded-Proto="https" X-AppService-Proto="https" X-Forwarded-TlsVersion="1.3" X-WAWS-Unencoded-URL="/api/deployments/latest?deployer=OneDeploy&amp;time=2025-08-04_10-40-40Z" X-Client-IP="52.159.244.65" X-Client-Port="57353" >
+  <step title="Cleanup Xml Logs" date="2025-08-04T10:40:56.811" /><!-- duration: 12ms -->
+  <step title="DeploymentService.GetResult" date="2025-08-04T10:40:56.841" >
+    <step title="DeploymentService.GetLatestDeployment" date="2025-08-04T10:40:56.881" >
+      <step title="DeploymentManager.GetResults" date="2025-08-04T10:40:56.911" /><!-- duration: 1166ms -->
+    </step><!-- duration: 1254ms -->
+  </step><!-- duration: 1314ms -->
+  <step title="Outgoing response" date="2025-08-04T10:40:58.186" type="response" statusCode="202" statusText="Accepted" /><!-- duration: 11ms -->
+</step><!-- duration: 1411ms -->
