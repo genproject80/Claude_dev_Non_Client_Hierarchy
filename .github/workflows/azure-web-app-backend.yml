@@ -1,4 +1,4 @@
-name: Deploy Backend to Azure Web App
+name: Deploy Express Backend to Azure App Service
 
 on:
   push:
@@ -29,24 +29,19 @@ jobs:
         cache: 'npm'
         cache-dependency-path: './backend/package-lock.json'
 
-    - name: Build and prepare deployment package
+    - name: Install dependencies
       run: |
         cd backend
-        npm ci
-        npm run build --if-present
-        echo "Backend built successfully"
-
-    - name: Create deployment artifact
-      run: |
-        mkdir -p deployment
-        cp -r backend/. deployment/
-        ls -la deployment/
-        echo "Checking for .platform file:"
-        ls -la deployment/.platform || echo "No .platform file found"
-
+        npm ci --production
     - name: 'Deploy to Azure WebApp'
       uses: azure/webapps-deploy@v3
       with:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-        package: './deployment'
+        package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+
+    - name: 'Test deployment'
+      run: |
+        echo "Testing backend deployment..."
+        # Add health check if you have one
+        # curl -f https://genvolt-webapp-backend.azurewebsites.net/health || exit 1
