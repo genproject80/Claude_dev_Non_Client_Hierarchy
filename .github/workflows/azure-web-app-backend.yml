@@ -32,7 +32,7 @@ jobs:
     - name: Install dependencies
       run: |
         cd backend
-        npm ci --production
+        npm ci
 
     - name: 'Deploy to Azure WebApp'
       uses: azure/webapps-deploy@v3
