@@ -110,6 +110,7 @@ app.listen(PORT, () => {
   console.log(`🔗 Frontend URL: ${process.env.FRONTEND_URL}`);
   console.log(`💾 Database: ${process.env.DB_SERVER || 'Using SQL_CONNECTION_STRING'}`);
   console.log(`🏥 Health check: ${process.env.NODE_ENV === 'production' ? 'https://genvolt-webapp-backend-epezdjc9hfcyf4hr.centralindia-01.azurewebsites.net' : 'http://localhost:' + PORT}/api/v1/health`);
+  console.log(`✅ CORS configured for origins:`, allowedOrigins);
 });
 
 export default app;
