@@ -39,8 +39,10 @@ jobs:
     - name: Create deployment artifact
       run: |
         mkdir -p deployment
-        cp -r backend/* deployment/
+        cp -r backend/. deployment/
         ls -la deployment/
+        echo "Checking for .platform file:"
+        ls -la deployment/.platform || echo "No .platform file found"
 
     - name: 'Deploy to Azure WebApp'
       uses: azure/webapps-deploy@v3
