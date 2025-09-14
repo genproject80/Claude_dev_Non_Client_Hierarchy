@@ -29,16 +29,22 @@ jobs:
         cache: 'npm'
         cache-dependency-path: './backend/package-lock.json'
 
-    - name: Install dependencies and prepare deployment
+    - name: Build and prepare deployment package
       run: |
         cd backend
         npm ci
-        # Ensure package.json has correct start script
-        echo "Preparing deployment package..."
+        npm run build --if-present
+        echo "Backend built successfully"
+
+    - name: Create deployment artifact
+      run: |
+        mkdir -p deployment
+        cp -r backend/* deployment/
+        ls -la deployment/
 
     - name: 'Deploy to Azure WebApp'
       uses: azure/webapps-deploy@v3
       with:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-        package: './backend'
+        package: './deployment'
