@@ -1,6 +1,5 @@
 // API configuration and service layer
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://genvolt-webapp-backend-epezdjc9hfcyf4hr.centralindia-01.azurewebsites.net/api/v1';
-const CONFIG_API_BASE_URL = import.meta.env.VITE_CONFIG_API_URL || 'https://func-iot-config-prod.azurewebsites.net/api';
 
 // Types for API responses
 interface ApiResponse<T> {
@@ -140,7 +139,6 @@ class ApiClient {
 
 // Create API client instances
 const apiClient = new ApiClient(API_BASE_URL);
-// const configApiClient = new ApiClient(CONFIG_API_BASE_URL); // No longer needed after Phase 1 migration
 
 // Authentication API
 export const authApi = {

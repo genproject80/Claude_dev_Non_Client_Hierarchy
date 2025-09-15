@@ -36,7 +36,6 @@ RATE_LIMIT_MAX_REQUESTS=100
 ### Frontend (Static Web App Settings)
 ```
 VITE_API_URL=https://genvolt-webapp-backend-epezdjc9hfcyf4hr.centralindia-01.azurewebsites.net/api/v1
-VITE_CONFIG_API_URL=https://func-iot-config-prod.azurewebsites.net/api
 ```
 
 ## Database Connection String (Alternative)
