@@ -45,11 +45,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       try {
         const token = AuthManager.getToken();
         if (!token) {
+          // No token exists, user is definitely not authenticated
           setIsLoading(false);
           return;
         }
 
-        // Verify token with backend
+        // Token exists, verify it with backend
         const response = await authApi.verify();
         if (response.valid && response.user) {
           setUser(response.user);

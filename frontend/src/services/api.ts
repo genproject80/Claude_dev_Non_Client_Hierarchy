@@ -97,7 +97,10 @@ class ApiClient {
       if (!response.ok) {
         if (response.status === 401) {
           AuthManager.removeToken();
-          window.location.href = '/login';
+          // Only redirect to login if not already on login or register page
+          if (!window.location.pathname.includes('/login') && !window.location.pathname.includes('/register')) {
+            window.location.href = '/login';
+          }
           throw new Error('Authentication required');
         }
         
