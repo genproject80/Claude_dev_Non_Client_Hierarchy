@@ -13,6 +13,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Checkbox } from '@/components/ui/checkbox';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, Globe, History, AlertTriangle, CheckCircle, Save, Play, Trash2, Users, Plus, Settings, ChevronDown, ChevronUp, X } from 'lucide-react';
+import { adminApi } from '@/services/api';
 
 // Helper function to get authentication headers
 const getAuthHeaders = () => {
@@ -140,11 +141,8 @@ export const UniversalCommunicationConfig: React.FC = () => {
     const fetchCurrentConfig = async () => {
         try {
             setIsFetching(true);
-            const response = await fetch('/api/v1/admin/universal-communication', {
-                headers: getAuthHeaders()
-            });
-            if (response.ok) {
-                const data: CurrentConfig = await response.json();
+            const data = await adminApi.universalCommunication.getCurrentConfig();
+            if (data) {
                 setCurrentConfig(data);
                 if (data.communication_settings?.communication_settings) {
                     const existingSettings = data.communication_settings.communication_settings;
@@ -185,13 +183,8 @@ export const UniversalCommunicationConfig: React.FC = () => {
 
     const fetchHistory = async () => {
         try {
-            const response = await fetch('/api/v1/admin/universal-communication/history', {
-                headers: getAuthHeaders()
-            });
-            if (response.ok) {
-                const data = await response.json();
-                setHistory(data.history || []);
-            }
+            const data = await adminApi.universalCommunication.getHistory();
+            setHistory(data.history || []);
         } catch (error) {
             console.error('Failed to fetch history:', error);
         }
@@ -199,13 +192,8 @@ export const UniversalCommunicationConfig: React.FC = () => {
 
     const fetchTemplates = async () => {
         try {
-            const response = await fetch('/api/v1/admin/universal-communication/templates', {
-                headers: getAuthHeaders()
-            });
-            if (response.ok) {
-                const data = await response.json();
-                setTemplates(data.templates || []);
-            }
+            const data = await adminApi.universalCommunication.getTemplates();
+            setTemplates(data.templates || []);
         } catch (error) {
             console.error('Failed to fetch templates:', error);
         }
@@ -341,33 +329,20 @@ export const UniversalCommunicationConfig: React.FC = () => {
         setIsLoading(true);
 
         try {
-            const response = await fetch('/api/v1/admin/universal-communication', {
-                method: 'POST',
-                headers: getAuthHeaders(),
-                body: JSON.stringify({
-                    communication_settings: communicationSettings,
-                    notes: notes || `Updated via admin interface (${isJsonBuilderMode ? 'JSON Builder' : 'Standard'} mode)`
-                })
+            await adminApi.universalCommunication.updateConfig({
+                configuration_name: 'Universal Communication Settings',
+                communication_settings: communicationSettings,
+                notes: notes || `Updated via admin interface (${isJsonBuilderMode ? 'JSON Builder' : 'Standard'} mode)`
             });
 
-            if (response.ok) {
-                const result = await response.json();
-                toast({
-                    title: "Success",
-                    description: "Universal communication settings updated successfully. All devices will receive the new configuration.",
-                    variant: "default"
-                });
-                fetchCurrentConfig();
-                fetchHistory();
-                setNotes('');
-            } else {
-                const error = await response.json();
-                toast({
-                    title: "Error",
-                    description: error.details ? error.details.join(', ') : (error.error || 'Failed to update configuration'),
-                    variant: "destructive"
-                });
-            }
+            toast({
+                title: "Success",
+                description: "Universal communication settings updated successfully. All devices will receive the new configuration.",
+                variant: "default"
+            });
+            fetchCurrentConfig();
+            fetchHistory();
+            setNotes('');
         } catch (error) {
             toast({
                 title: "Network Error",
@@ -451,42 +426,28 @@ export const UniversalCommunicationConfig: React.FC = () => {
         setIsLoading(true);
 
         try {
-            const response = await fetch('/api/v1/admin/universal-communication/templates', {
-                method: 'POST',
-                headers: getAuthHeaders(),
-                body: JSON.stringify({
-                    configuration_name: saveData.configuration_name,
-                    description: saveData.description,
-                    communication_settings: communicationSettings,
-                    allowed_users: selectedUsers,
-                    notes: saveData.notes || saveData.description || `Saved via admin interface (${isJsonBuilderMode ? 'JSON Builder' : 'Standard'} mode)`
-                })
+            await adminApi.universalCommunication.saveAsTemplate({
+                configuration_name: saveData.configuration_name,
+                description: saveData.description,
+                communication_settings: communicationSettings,
+                allowed_users: selectedUsers,
+                notes: saveData.notes || saveData.description || `Saved via admin interface (${isJsonBuilderMode ? 'JSON Builder' : 'Standard'} mode)`
             });
 
-            if (response.ok) {
-                const result = await response.json();
-                toast({
-                    title: "Success",
-                    description: "Configuration template saved successfully",
-                    variant: "default"
-                });
-                setShowSaveDialog(false);
-                setSaveData({
-                    configuration_name: '',
-                    description: '',
-                    allowed_users: [],
-                    notes: ''
-                });
-                setSelectedUsers([]);
-                fetchTemplates();
-            } else {
-                const error = await response.json();
-                toast({
-                    title: "Error",
-                    description: error.details ? error.details.join(', ') : (error.error || 'Failed to save template'),
-                    variant: "destructive"
-                });
-            }
+            toast({
+                title: "Success",
+                description: "Configuration template saved successfully",
+                variant: "default"
+            });
+            setShowSaveDialog(false);
+            setSaveData({
+                configuration_name: '',
+                description: '',
+                allowed_users: [],
+                notes: ''
+            });
+            setSelectedUsers([]);
+            fetchTemplates();
         } catch (error) {
             toast({
                 title: "Network Error",
@@ -509,29 +470,16 @@ export const UniversalCommunicationConfig: React.FC = () => {
         setIsLoading(true);
 
         try {
-            const response = await fetch(`/api/v1/admin/universal-communication/activate/${templateId}`, {
-                method: 'POST',
-                headers: getAuthHeaders()
-            });
+            await adminApi.universalCommunication.activateConfig(templateId);
 
-            if (response.ok) {
-                const result = await response.json();
-                toast({
-                    title: "Success",
-                    description: "Configuration activated successfully. All devices will receive the new configuration.",
-                    variant: "default"
-                });
-                fetchCurrentConfig();
-                fetchHistory();
-                fetchTemplates();
-            } else {
-                const error = await response.json();
-                toast({
-                    title: "Error",
-                    description: error.error || 'Failed to activate configuration',
-                    variant: "destructive"
-                });
-            }
+            toast({
+                title: "Success",
+                description: "Configuration activated successfully. All devices will receive the new configuration.",
+                variant: "default"
+            });
+            fetchCurrentConfig();
+            fetchHistory();
+            fetchTemplates();
         } catch (error) {
             toast({
                 title: "Network Error",
@@ -554,26 +502,14 @@ export const UniversalCommunicationConfig: React.FC = () => {
         setIsLoading(true);
 
         try {
-            const response = await fetch(`/api/v1/admin/universal-communication/templates/${templateId}`, {
-                method: 'DELETE',
-                headers: getAuthHeaders()
-            });
+            await adminApi.universalCommunication.deleteTemplate(templateId);
 
-            if (response.ok) {
-                toast({
-                    title: "Success",
-                    description: "Configuration template deleted successfully",
-                    variant: "default"
-                });
-                fetchTemplates();
-            } else {
-                const error = await response.json();
-                toast({
-                    title: "Error",
-                    description: error.error || 'Failed to delete template',
-                    variant: "destructive"
-                });
-            }
+            toast({
+                title: "Success",
+                description: "Configuration template deleted successfully",
+                variant: "default"
+            });
+            fetchTemplates();
         } catch (error) {
             toast({
                 title: "Network Error",

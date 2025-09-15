@@ -742,6 +742,59 @@ export const adminApi = {
         permission_count: number;
       }>;
     }>>('/admin/roles/statistics');
+  },
+
+  // Universal Communication Configuration
+  universalCommunication: {
+    // Get current active configuration
+    getCurrentConfig: async () => {
+      return apiClient.get<any>('/admin/universal-communication');
+    },
+
+    // Get configuration history
+    getHistory: async () => {
+      return apiClient.get<{ history: any[] }>('/admin/universal-communication/history');
+    },
+
+    // Get configuration templates
+    getTemplates: async () => {
+      return apiClient.get<{ templates: any[] }>('/admin/universal-communication/templates');
+    },
+
+    // Update configuration
+    updateConfig: async (data: {
+      configuration_name: string;
+      communication_settings: any;
+      notes?: string;
+    }) => {
+      return apiClient.put<any>('/admin/universal-communication', data);
+    },
+
+    // Save as template
+    saveAsTemplate: async (data: {
+      configuration_name: string;
+      description: string;
+      allowed_users: number[];
+      notes: string;
+      communication_settings: any;
+    }) => {
+      return apiClient.post<any>('/admin/universal-communication/template', data);
+    },
+
+    // Activate configuration
+    activateConfig: async (configId: number) => {
+      return apiClient.post<any>(`/admin/universal-communication/activate/${configId}`);
+    },
+
+    // Delete template
+    deleteTemplate: async (templateId: number) => {
+      return apiClient.delete<any>(`/admin/universal-communication/template/${templateId}`);
+    },
+
+    // Test configuration
+    testConfig: async (settings: any) => {
+      return apiClient.post<any>('/admin/universal-communication/test', settings);
+    }
   }
 };
 

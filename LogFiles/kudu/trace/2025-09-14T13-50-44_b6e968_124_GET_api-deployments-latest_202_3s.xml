@@ -1,0 +1,11 @@
+<step title="Incoming Request" date="2025-09-14T13:50:44.632" instance="b6e968" url="/api/deployments/latest?deployer=OneDeploy&amp;time=2025-09-14_13-49-33Z" method="GET" type="request" pid="823,1,15" Host="genvolt-webapp-backend-epezdjc9hfcyf4hr.scm.centralindia-01.azurewebsites.net" User-Agent="GITHUBACTIONS_DeployWebAppToAzure_4618b544b8af35a3265a55f8f8620018afeb6232bc516babd865685c8f30296c" Authorization="Bas..." Content-Type="application/json; charset=utf-8" Cookie="ARRAffinity=b6e96858c831a75779f5b74d69e241bee2844e8469956c803745fe996c660b31;Path=/;HttpOnly;Secure;Domain=genvolt-webapp-backend-epezdjc9hfcyf4hr.scm.centralindia-01.azurewebsites.net; ARRAffinitySameSite=b6e96858c831a75779f5b74d69e241bee2844e8469956c803745fe996c660b31;Path=/;HttpOnly;SameSite=None;Secure;Domain=genvolt-webapp-backend-epezdjc9hfcyf4hr.scm.centralindia-01.azurewebsites.net" Content-Length="0" X-ARR-LOG-ID="5405b90c-2912-4a84-8aaa-10da73e240d0" CLIENT-IP="52.176.35.119:43072" X-SITE-DEPLOYMENT-ID="genvolt-webapp-backend" WAS-DEFAULT-HOSTNAME="genvolt-webapp-backend-epezdjc9hfcyf4hr.scm.centralindia-01.azurewebsites.net" X-Forwarded-Proto="https" X-AppService-Proto="https" X-Forwarded-TlsVersion="1.3" X-WAWS-Unencoded-URL="/api/deployments/latest?deployer=OneDeploy&amp;time=2025-09-14_13-49-33Z" X-Client-IP="52.176.35.119" X-Client-Port="43072" >
+  <step title="Cleanup Xml Logs" date="2025-09-14T13:50:44.655" >
+    <step title="Cleanup Infos" date="2025-09-14T13:50:44.815" totalFiles="601" totalCleanup="441" /><!-- duration: 31ms -->
+  </step><!-- duration: 230ms -->
+  <step title="DeploymentService.GetResult" date="2025-09-14T13:50:44.956" >
+    <step title="DeploymentService.GetLatestDeployment" date="2025-09-14T13:50:44.987" >
+      <step title="DeploymentManager.GetResults" date="2025-09-14T13:50:45.017" /><!-- duration: 2257ms -->
+    </step><!-- duration: 2422ms -->
+  </step><!-- duration: 2466ms -->
+  <step title="Outgoing response" date="2025-09-14T13:50:47.440" type="response" statusCode="202" statusText="Accepted" /><!-- duration: 28ms -->
+</step><!-- duration: 2852ms -->

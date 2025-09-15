@@ -1,0 +1,9 @@
+<step title="Incoming Request" date="2025-09-14T12:04:24.589" instance="b6e968" url="/api/deployments/27c2bb10-900c-4087-839f-8f74dbe646c0/log" method="GET" type="request" pid="823,1,16" Accept="*/*" Host="genvolt-webapp-backend-epezdjc9hfcyf4hr.scm.centralindia-01.azurewebsites.net" User-Agent="curl/8.7.1" Authorization="Bas..." X-ARR-LOG-ID="3f27b659-cf91-417e-b468-0b541a52cc07" CLIENT-IP="49.36.59.182:59941" X-SITE-DEPLOYMENT-ID="genvolt-webapp-backend" WAS-DEFAULT-HOSTNAME="genvolt-webapp-backend-epezdjc9hfcyf4hr.scm.centralindia-01.azurewebsites.net" X-Forwarded-Proto="https" X-AppService-Proto="https" X-Forwarded-TlsVersion="1.3" X-WAWS-Unencoded-URL="/api/deployments/27c2bb10-900c-4087-839f-8f74dbe646c0/log" X-Client-IP="49.36.59.182" X-Client-Port="59941" >
+  <step title="Cleanup Xml Logs" date="2025-09-14T12:04:24.660" >
+    <step title="Cleanup Infos" date="2025-09-14T12:04:24.840" totalFiles="504" totalCleanup="344" /><!-- duration: 181ms -->
+  </step><!-- duration: 402ms -->
+  <step title="DeploymentService.GetLogEntry" date="2025-09-14T12:04:25.200" >
+    <step title="DeploymentManager.GetLogEntries(id:27c2bb10-900c-4087-839f-8f74dbe646c0)" date="2025-09-14T12:04:25.231" /><!-- duration: 91ms -->
+  </step><!-- duration: 161ms -->
+  <step title="Outgoing response" date="2025-09-14T12:04:25.442" type="response" statusCode="200" statusText="OK" /><!-- duration: 30ms -->
+</step><!-- duration: 915ms -->
