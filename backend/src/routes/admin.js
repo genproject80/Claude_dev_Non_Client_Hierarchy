@@ -350,7 +350,7 @@ router.get('/stats', async (req, res) => {
       SELECT 
         COUNT(*) as total_motor_records,
         MAX(CreatedAt) as latest_motor_data
-      FROM IoT_Data_Sick
+      FROM IoT_Data_Sick_Test
     `);
 
     // Get recent activity (last 24 hours)
@@ -366,7 +366,7 @@ router.get('/stats', async (req, res) => {
       SELECT 
         COUNT(*) as recent_motor_readings,
         COUNT(CASE WHEN Fault_Code > 0 THEN 1 END) as recent_motor_faults
-      FROM IoT_Data_Sick 
+      FROM IoT_Data_Sick_Test 
       WHERE CreatedAt >= DATEADD(hour, -24, GETDATE())
     `);
 

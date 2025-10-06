@@ -45,7 +45,7 @@ router.get('/', async (req, res) => {
           HexField,
           Timestamp,
           ROW_NUMBER() OVER (PARTITION BY Device_ID ORDER BY CreatedAt DESC) as rn
-        FROM IoT_Data_Sick
+        FROM IoT_Data_Sick_Test
       ) latest 
       WHERE latest.rn = 1
       ORDER BY latest.Device_ID
@@ -106,7 +106,7 @@ router.get('/:deviceId', [
          CreatedAt,
          HexField,
          Timestamp
-       FROM IoT_Data_Sick 
+       FROM IoT_Data_Sick_Test
        WHERE Device_ID = @deviceId 
        ORDER BY CreatedAt DESC`,
       { deviceId }
@@ -195,7 +195,7 @@ router.get('/:deviceId/data', [
 
     // Get total count
     const countResult = await database.query(
-      `SELECT COUNT(*) as total FROM IoT_Data_Sick ${whereClause}`,
+      `SELECT COUNT(*) as total FROM IoT_Data_Sick_Test ${whereClause}`,
       params
     );
     const total = countResult[0]?.total || 0;
@@ -205,7 +205,7 @@ router.get('/:deviceId/data', [
       `SELECT Entry_ID, Device_ID, GSM_Signal_Strength, Motor_ON_Time_sec, Motor_OFF_Time_sec,
               Number_of_Wheels_Configured, Latitude, Longitude, Number_of_Wheels_Detected,
               Fault_Code, Motor_Current_mA, CreatedAt, HexField, Timestamp
-       FROM IoT_Data_Sick 
+       FROM IoT_Data_Sick_Test
        ${whereClause}
        ORDER BY CreatedAt DESC
        OFFSET @offset ROWS FETCH NEXT @limit ROWS ONLY`,

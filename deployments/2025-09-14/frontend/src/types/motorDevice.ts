@@ -1,4 +1,4 @@
-// TypeScript interfaces for Motor IoT devices from IoT_Data_Sick table
+// TypeScript interfaces for Motor IoT devices from IoT_Data_Sick_Test table
 
 export interface MotorDevice {
   entryId: number;
